@@ -2,24 +2,24 @@ package Classes;
 
 public class Formateur {
 
-    private int id;
+    private int id_Formateur;
     private String mail;
     private String nom;
     private String prenom;
 
-    public Formateur(int id, String mail, String nom, String prenom) {
-        this.id = id;
+    public Formateur(int id_Formateur, String mail, String nom, String prenom) {
+        this.id_Formateur = id_Formateur;
         this.mail = mail;
         this.nom = nom;
         this.prenom = prenom;
     }
 
-    public int getId() {
-        return id;
+    public int getId_Formateur() {
+        return id_Formateur;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId_Formateur(int id_Formateur) {
+        this.id_Formateur = id_Formateur;
     }
 
     public String getMail() {

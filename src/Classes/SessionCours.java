@@ -6,7 +6,7 @@ import java.util.List;
 
 public class SessionCours {
 
-    private int id;
+    private int id_SessionCours;
     private LocalDate dateDebut;
     private LocalDate dateFin;
     private int nbreInscrits;
@@ -14,8 +14,8 @@ public class SessionCours {
     private Local local;
     private List<Infos> info=new ArrayList<>();
 
-    public SessionCours(int id, LocalDate dateDebut, LocalDate dateFin, int nbreInscrits, Cours cours, Local local) {
-        this.id = id;
+    public SessionCours(int id_SessionCours, LocalDate dateDebut, LocalDate dateFin, int nbreInscrits, Cours cours, Local local) {
+        this.id_SessionCours = id_SessionCours;
         this.dateDebut = dateDebut;
         this.dateFin = dateFin;
         this.nbreInscrits = nbreInscrits;
@@ -24,12 +24,12 @@ public class SessionCours {
 
     }
 
-    public int getId() {
-        return id;
+    public int getId_SessionCours() {
+        return id_SessionCours;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId_SessionCours(int id_SessionCours) {
+        this.id_SessionCours = id_SessionCours;
     }
 
     public LocalDate getDateDebut() {

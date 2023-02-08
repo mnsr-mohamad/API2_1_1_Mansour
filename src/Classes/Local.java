@@ -5,26 +5,26 @@ import java.util.List;
 
 public class Local {
 
-    private int id;
+    private int id_Local;
     private String sigle;
     private int places;
     private String description;
     private List<SessionCours> session=new ArrayList<>();
 
-    public Local(int id, String sigle, int places, String description) {
-        this.id = id;
+    public Local(int id_Local, String sigle, int places, String description) {
+        this.id_Local = id_Local;
         this.sigle = sigle;
         this.places = places;
         this.description = description;
 
     }
 
-    public int getId() {
-        return id;
+    public int getId_Local() {
+        return id_Local;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId_Local(int id_Local) {
+        this.id_Local = id_Local;
     }
 
     public String getSigle() {

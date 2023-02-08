@@ -3,24 +3,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Cours {
-    private int id;
+    private int id_Cours;
     private String matiere;
     private int heures;
     private List<SessionCours> session=new ArrayList<>();
 
-    public Cours(int id, String matiere, int heures, List<SessionCours> session) {
-        this.id = id;
+    public Cours(int id_Cours, String matiere, int heures, List<SessionCours> session) {
+        this.id_Cours = id_Cours;
         this.matiere = matiere;
         this.heures = heures;
         this.session = session;
     }
 
-    public int getId() {
-        return id;
+    public int getId_Cours() {
+        return id_Cours;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId_Cours(int id_Cours) {
+        this.id_Cours = id_Cours;
     }
 
     public String getMatiere() {
