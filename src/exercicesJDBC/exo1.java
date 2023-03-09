@@ -17,7 +17,7 @@ public class exo1 {
         Scanner sc = new Scanner(System.in);
         try (PreparedStatement pstm = dbConnect1.prepareStatement(
                 "SELECT * FROM APIFORMATEUR WHERE NOM = ? AND PRENOM = ? ")) {
-            System.out.print("Nom du formateur recherché :");
+            System.out.print("Nom du formateur recherché : ");
             String nomrech = sc.nextLine();
             System.out.print("Prénom du formateur recherché : ");
             String pnomrech = sc.nextLine();

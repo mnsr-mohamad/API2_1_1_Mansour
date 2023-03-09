@@ -42,6 +42,7 @@ public class Cours {
         this.session = session;
     }
 
+
     /**
      * getter id_Cours
      *
@@ -116,5 +117,15 @@ public class Cours {
      */
     public void setSession(List<SessionCours> session) {
         this.session = session;
+    }
+
+    @Override
+    public String toString() {
+        return "Cours{" +
+                "id_Cours=" + id_Cours +
+                ", matiere='" + matiere + '\'' +
+                ", heures=" + heures +
+                ", session=" + session +
+                '}';
     }
 }
