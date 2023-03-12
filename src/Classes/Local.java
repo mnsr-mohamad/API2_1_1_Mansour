@@ -49,6 +49,14 @@ public class Local {
 
     }
 
+    public Local(String sigle) {
+        this.sigle = sigle;
+    }
+
+    public Local() {
+
+    }
+
     /**
      * getter id_local identifiant du local
      *
@@ -147,5 +155,16 @@ public class Local {
 
     public void setSession(List<SessionCours> session) {
         this.session = session;
+    }
+
+    @Override
+    public String toString() {
+        return "Local{" +
+                "id_Local=" + id_Local +
+                ", sigle='" + sigle + '\'' +
+                ", places=" + places +
+                ", description='" + description + '\'' +
+                ", session=" + session +
+                '}';
     }
 }

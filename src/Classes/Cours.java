@@ -35,11 +35,11 @@ public class Cours {
      * @param matiere  nom du de la matière du cours
      * @param heures   nombre d'heure du cours
      */
-    public Cours(int id_Cours, String matiere, int heures, List<SessionCours> session) {
+    public Cours(int id_Cours, String matiere, int heures) {
         this.id_Cours = id_Cours;
         this.matiere = matiere;
         this.heures = heures;
-        this.session = session;
+
     }
 
 
@@ -125,7 +125,6 @@ public class Cours {
                 "id_Cours=" + id_Cours +
                 ", matiere='" + matiere + '\'' +
                 ", heures=" + heures +
-                ", session=" + session +
                 '}';
     }
 }

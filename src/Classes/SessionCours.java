@@ -64,6 +64,15 @@ public class SessionCours {
 
     }
 
+    public SessionCours(int id_SessionCours, LocalDate dateDebut, LocalDate dateFin, int nbreInscrits) {
+        this.id_SessionCours = id_SessionCours;
+        this.dateDebut = dateDebut;
+        this.dateFin = dateFin;
+        this.nbreInscrits = nbreInscrits;
+
+
+    }
+
     /**
      * getter id_SessionCours identifiant de la session
      *
@@ -205,5 +214,18 @@ public class SessionCours {
 
     public void setInfo(List<Infos> info) {
         this.info = info;
+    }
+
+
+    @Override
+    public String toString() {
+        return "SessionCours{" +
+                "id_SessionCours=" + id_SessionCours +
+                ", dateDebut=" + dateDebut +
+                ", dateFin=" + dateFin +
+                ", nbreInscrits=" + nbreInscrits +
+                ", local=" + local.getSigle() +
+
+                '}';
     }
 }

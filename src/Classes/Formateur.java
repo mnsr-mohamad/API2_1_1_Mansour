@@ -118,4 +118,15 @@ public class Formateur {
     public void setPrenom(String prenom) {
         this.prenom = prenom;
     }
+
+
+    @Override
+    public String toString() {
+        return "Formateur{" +
+                "id_Formateur=" + id_Formateur +
+                ", mail='" + mail + '\'' +
+                ", nom='" + nom + '\'' +
+                ", prenom='" + prenom + '\'' +
+                '}';
+    }
 }
