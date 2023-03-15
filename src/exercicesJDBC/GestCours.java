@@ -171,9 +171,13 @@ public class GestCours {
                     sessionParCours(cours);
                     break;
                 case 3:
-                    LocalDate dateDebut = LocalDate.parse("2023-03-01");
-                    LocalDate dateFin = LocalDate.parse("2023-03-20");
-                    sessionParCoursAvecDates(cours, dateDebut, dateFin);
+                    System.out.print("Entrez la date de début (AAAA-MM-JJ) : ");
+                    String dateDebutStr = sc.nextLine();
+                    LocalDate dateDebut = LocalDate.parse(dateDebutStr);
+                    System.out.print("Entrez la date de fin (AAAA-MM-JJ) : ");
+                    String dateFinStr = sc.nextLine();
+                    LocalDate dateFin = LocalDate.parse(dateFinStr);
+                    sessionParCoursAvecDates(cours,dateDebut,dateFin);
                     break;
                 case 4:
                     return;
