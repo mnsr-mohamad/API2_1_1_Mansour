@@ -11,4 +11,8 @@ public interface DAOCours {
     boolean removeCours(Cours cours);
 
     List<Cours> getCours();
+
+    Cours updateCours(Cours cours);
+
+    Cours readCours(int id_Cours);
 }
