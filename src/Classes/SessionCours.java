@@ -72,6 +72,14 @@ public class SessionCours {
 
 
     }
+    public SessionCours(int id_SessionCours, LocalDate dateDebut, LocalDate dateFin, int nbreInscrits, Local local) {
+        this.id_SessionCours = id_SessionCours;
+        this.dateDebut = dateDebut;
+        this.dateFin = dateFin;
+        this.nbreInscrits = nbreInscrits;
+        this.local = local;
+
+    }
 
     /**
      * getter id_SessionCours identifiant de la session

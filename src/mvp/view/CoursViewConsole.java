@@ -7,6 +7,9 @@ import utilitaires.Utilitaire;
 import java.util.List;
 import java.util.Scanner;
 
+import static utilitaires.Utilitaire.affListe;
+import static utilitaires.Utilitaire.choixElt;
+
 public class CoursViewConsole implements CoursViewInterface {
     private CoursPresenter presenter;
     private List<Cours> lc;
@@ -25,7 +28,7 @@ public class CoursViewConsole implements CoursViewInterface {
     public void setListDatas(List<Cours> cours) {
 
         this.lc = cours;
-        Utilitaire.affListe(lc);
+        affListe(lc);
         menu();
     }
 
@@ -34,10 +37,15 @@ public class CoursViewConsole implements CoursViewInterface {
         System.out.println("information:" + msg);
     }
 
+    @Override
+    public void affList(List infos) {
+        affListe(infos);
+    }
+
 
     public void menu() {
         do {
-            System.out.println("1.ajout\n2.retrait\n3.modifier\n4.rechercher\n5.fin");
+            System.out.println("1.ajout\n2.retrait\n3.modifier\n4.rechercher\n5.special\n6.fin");
 
             int ch = sc.nextInt();
             sc.skip("\n");
@@ -55,13 +63,16 @@ public class CoursViewConsole implements CoursViewInterface {
                     rechercher();
                     break;
                 case 5:
+
+                    special();
+                case 6 :
                     System.exit(0);
             }
         } while (true);
     }
 
     private void retirer() {
-        int nl = Utilitaire.choixElt(lc);
+        int nl = choixElt(lc);
         Cours cours = lc.get(nl - 1);
         presenter.removeCours(cours);
 
@@ -76,13 +87,13 @@ public class CoursViewConsole implements CoursViewInterface {
     }
 
     private void modifier() {
-        int nl = Utilitaire.choixElt(lc);
+        int nl = choixElt(lc);
         Cours cours = lc.get(nl - 1);
         String matiere = modifyIfNotBlank("matiere", cours.getMatiere());
         int heures = Integer.parseInt(modifyIfNotBlank("heures", "" + cours.getHeures()));
         presenter.update(new Cours(cours.getId_Cours(), matiere, heures));
         lc = presenter.getAll();//rafraichissement
-        Utilitaire.affListe(lc);
+        affListe(lc);
 
     }
 
@@ -100,6 +111,34 @@ public class CoursViewConsole implements CoursViewInterface {
         presenter.search(id_cours);
     }
 
+    public void special(){
+        int choix =  choixElt(lc);
+        Cours cr = lc.get(choix-1);
+        System.out.println("Vous avez choisi le cours "+cr);
+        do {
+            System.out.println("1.Formateurs par cours\n2.Sessions par local\n3.Sessions entre 2 dates\n4.menu principal");
+            System.out.println("choix : ");
+            int ch = sc.nextInt();
+            sc.skip("\n");
+            switch (ch) {
+                case 1:
+                    presenter.FormateursCours(cr);
+                    break;
+                case 2:
+                    presenter.SessionsParLocal(cr);
+                    break;
+                case 3:
+                    presenter.SessionsEntreDate(cr);
+                    break;
+                case 4 :
+                    return;
+                default:
+                    System.out.println("choix invalide recommencez ");
+            }
+        } while (true);
+
+
+    }
 
 
 }

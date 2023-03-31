@@ -1,6 +1,9 @@
 package mvp.presenter;
 
 import Classes.Cours;
+import Classes.Formateur;
+import Classes.SessionCours;
+import mvp.model.CoursSpecial;
 import mvp.model.DAOCours;
 import mvp.view.CoursViewInterface;
 
@@ -55,4 +58,27 @@ public class CoursPresenter {
         if(cr==null) view.affMsg("recherche infructueuse");
         else view.affMsg(cr.toString());
     }
+
+
+    public void FormateursCours (Cours cours){
+        List<Formateur> lcf = ((CoursSpecial)model).FormateursCours(cours);
+        if(lcf==null || lcf.isEmpty()) view.affMsg("aucun formateur trouvé");
+        else view.affList(lcf);
+    }
+
+    public void SessionsEntreDate (Cours cours){
+        List<SessionCours> lcs = ((CoursSpecial)model).SessionsEntreDate(cours);
+        if(lcs==null || lcs.isEmpty()) view.affMsg("aucune sessions trouvée");
+        else view.affList(lcs);
+    }
+
+    public void SessionsParLocal (Cours cours){
+        List<SessionCours> lcs = ((CoursSpecial)model).SessionsParLocal(cours);
+        if(lcs==null || lcs.isEmpty()) view.affMsg("aucune sessions trouvée");
+        else view.affList(lcs);
+    }
+
+
+
+
 }
