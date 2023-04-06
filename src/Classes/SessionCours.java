@@ -1,5 +1,6 @@
 package Classes;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -80,6 +81,11 @@ public class SessionCours {
         this.local = local;
 
     }
+
+
+
+
+
 
     /**
      * getter id_SessionCours identifiant de la session
@@ -232,8 +238,9 @@ public class SessionCours {
                 ", dateDebut=" + dateDebut +
                 ", dateFin=" + dateFin +
                 ", nbreInscrits=" + nbreInscrits +
-                ", local=" + local.getSigle() +
-
+                ", cours=" + cours +
+                ", local=" + local +
+                ", info=" + info +
                 '}';
     }
 }

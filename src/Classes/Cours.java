@@ -42,6 +42,9 @@ public class Cours {
 
     }
 
+    public Cours(int idCours) {
+    }
+
 
     /**
      * getter id_Cours

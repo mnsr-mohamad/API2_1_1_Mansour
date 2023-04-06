@@ -53,6 +53,10 @@ public class Local {
         this.sigle = sigle;
     }
 
+    public Local(int idLocal) {
+
+    }
+
     public Local() {
 
     }

@@ -4,6 +4,7 @@ import mvp.model.*;
 import mvp.presenter.CoursPresenter;
 import mvp.presenter.FormateurPresenter;
 import mvp.presenter.LocalPresenter;
+import mvp.presenter.SessionCoursPresenter;
 import mvp.view.*;
 
 public class GestCli {
@@ -19,9 +20,15 @@ public class GestCli {
         FormateurPresenter fp = new FormateurPresenter(fm,fv);//création et injection de dépendance
         fp.start();*/
 
-        DAOLocal lo = new LocalModelDB();
+        /*DAOLocal lo = new LocalModelDB();
         LocalViewInterface lv = new LocalViewConsole();
         LocalPresenter lp= new LocalPresenter(lo,lv);
+        lp.start();*/
+
+
+        DAOSessionCours ls = new SessionCoursModelDB();
+        SessionCoursViewInterface lv = new SessionCoursViewConsole();
+        SessionCoursPresenter lp= new SessionCoursPresenter(ls,lv);
         lp.start();
 
     }
