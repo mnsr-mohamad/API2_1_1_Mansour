@@ -95,14 +95,7 @@ public class SessionCoursViewConsole implements SessionCoursViewInterface {
         int nbInscrits = sc.nextInt();
         sc.nextLine();
 
-        System.out.print("Id du local : ");
-        int idLocal = sc.nextInt();
-        sc.nextLine();
-        System.out.print("Id du cours : ");
-        int idCours = sc.nextInt();
-        sc.nextLine();
-
-        presenter.addSessionCours(new SessionCours(0, dateDebut, dateFin, nbInscrits, new Cours(idCours), new Local(idLocal)));
+       presenter.addSessionCours(new SessionCours(0,dateDebut,dateFin,nbInscrits));
     }
 
     private void modifier() {
@@ -111,9 +104,8 @@ public class SessionCoursViewConsole implements SessionCoursViewInterface {
         LocalDate dateDebut = LocalDate.parse(modifyIfNotBlank("date de debut",""+ sessioncours.getDateDebut()));
         LocalDate dateFin = LocalDate.parse(modifyIfNotBlank("date de fin",""+ sessioncours.getDateFin()));
         int nbreinscrits = Integer.parseInt(modifyIfNotBlank("nombre d'inscrits", ""+sessioncours.getNbreInscrits()));
-        int id_cours = Integer.parseInt(modifyIfNotBlank("ID du cours", ""+sessioncours.getCours().getId_Cours()));
-        int id_local = Integer.parseInt(modifyIfNotBlank("ID du local", ""+sessioncours.getLocal().getId_Local()));
-        presenter.update(new SessionCours(sessioncours.getId_SessionCours(), dateDebut,dateFin,nbreinscrits,new Cours(id_cours), new Local(id_local)));
+
+        presenter.update(new SessionCours(sessioncours.getId_SessionCours(), dateDebut,dateFin,nbreinscrits));
         ls = presenter.getAll();//rafraichissement
         affListe(ls);
 

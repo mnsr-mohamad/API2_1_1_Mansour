@@ -1,5 +1,6 @@
 package mvp.view;
 
+
 import Classes.Local;
 
 import mvp.presenter.LocalPresenter;
@@ -15,6 +16,6 @@ public interface LocalViewInterface {
 
     public void affList(List infos);
 
-
+    public Local selectionner(List<Local> lo);
 
 }

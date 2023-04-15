@@ -17,15 +17,17 @@ public class Infos {
      */
     private Formateur formateur;
 
+    private SessionCours sessions;
 
     /**
      * constructeur paramétré
      * @param nh nombre d'heure
      */
 
-    public Infos(int nh, Formateur formateur) {
+    public Infos(int nh, Formateur formateur, SessionCours sessions) {
         this.nh = nh;
         this.formateur = formateur;
+        this.sessions = sessions;
     }
 
     /**
@@ -65,4 +67,25 @@ public class Infos {
     public void setFormateur(Formateur formateur) {
         this.formateur = formateur;
     }
+
+
+    public SessionCours getSessions() {
+        return sessions;
+    }
+
+    public void setSessions(SessionCours sessions) {
+        this.sessions = sessions;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Infos{" +
+                "nh=" + nh +
+                ", formateur=" + formateur +
+                ", sessions=" + sessions +
+                '}';
+    }
 }
+
+

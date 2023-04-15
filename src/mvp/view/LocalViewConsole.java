@@ -1,13 +1,13 @@
 package mvp.view;
 
+import Classes.Cours;
 import Classes.Local;
 import mvp.presenter.LocalPresenter;
 
 import java.util.List;
 import java.util.Scanner;
 
-import static utilitaires.Utilitaire.affListe;
-import static utilitaires.Utilitaire.choixElt;
+import static utilitaires.Utilitaire.*;
 
 public class LocalViewConsole implements LocalViewInterface{
 
@@ -41,6 +41,13 @@ public class LocalViewConsole implements LocalViewInterface{
     public void affList(List infos) {
         affListe(infos);
 
+    }
+
+    @Override
+    public Local selectionner(List<Local> lo) {
+        int n = choixListe(lo);
+        Local local = lo.get(n-1);
+        return local;
     }
 
     public void menu() {

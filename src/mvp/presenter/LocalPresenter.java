@@ -1,8 +1,11 @@
 package mvp.presenter;
 
+import Classes.Cours;
 import Classes.Local;
 import mvp.model.DAOLocal;
 import mvp.view.LocalViewInterface;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
@@ -10,6 +13,8 @@ public class LocalPresenter {
 
     private DAOLocal model;
     private LocalViewInterface view;
+
+    private static final Logger logger = LogManager.getLogger(LocalPresenter.class);
 
     public LocalPresenter(DAOLocal model, LocalViewInterface view) {
         this.model = model;
@@ -20,6 +25,12 @@ public class LocalPresenter {
     public void start() {
         List<Local> local = model.getLocal();
         view.setListDatas(local);
+    }
+
+    public Local selectionner(){
+        logger.info("Appel de selection local");
+        Local lc = view.selectionner(model.getLocal());
+        return lc;
     }
     public void update(Local local) {
         Local fr = model.updateLocal(local);

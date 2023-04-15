@@ -33,7 +33,7 @@ public class SessionCoursModelDB implements DAOSessionCours{
     @Override
     public SessionCours addSessionCours(SessionCours sessionCours) {
         String query1 = "INSERT INTO APISESSIONCOURS (dateDebut, dateFin, nbreInscrits, id_Local, id_Cours) VALUES (?, ?, ?, ?, ?)";
-        String query2 = "SELECT id_SessionCours FROM APISESSIONCOURS WHERE dateDebut = ? AND dateFin = ? AND nbreInscrits = ? AND id_Local = ? AND id_Cours = ?";
+        String query2 = "SELECT max(id_SessionCours) FROM APISESSIONCOURS WHERE id_Local = ? AND id_Cours = ?";
         try (PreparedStatement pstm1 = dbConnect.prepareStatement(query1);
              PreparedStatement pstm2 = dbConnect.prepareStatement(query2);
         ) {
@@ -45,11 +45,9 @@ public class SessionCoursModelDB implements DAOSessionCours{
 
             int n = pstm1.executeUpdate();
             if (n == 1) {
-                pstm2.setDate(1, Date.valueOf(sessionCours.getDateDebut()));
-                pstm2.setDate(2, Date.valueOf(sessionCours.getDateFin()));
-                pstm2.setInt(3, sessionCours.getNbreInscrits());
-                pstm2.setInt(4, sessionCours.getLocal().getId_Local());
-                pstm2.setInt(5, sessionCours.getCours().getId_Cours());
+
+                pstm2.setInt(1, sessionCours.getLocal().getId_Local());
+                pstm2.setInt(2, sessionCours.getCours().getId_Cours());
 
                 ResultSet rs = pstm2.executeQuery();
                 if (rs.next()) {
@@ -155,14 +153,12 @@ public class SessionCoursModelDB implements DAOSessionCours{
     }
     @Override
     public SessionCours updateSessionCours(SessionCours sessionCours) {
-        String query = "update APISESSIONCOURS set dateDebut=?, dateFin=?, nbreinscrits =?, id_local=?, id_cours=? where id_sessioncours = ?";
+        String query = "update APISESSIONCOURS set dateDebut=?, dateFin=?, nbreinscrits = ? where id_sessioncours = ?";
         try (PreparedStatement pstm = dbConnect.prepareStatement(query)) {
             pstm.setDate(1, Date.valueOf(sessionCours.getDateDebut()));
             pstm.setDate(2, Date.valueOf(sessionCours.getDateFin()));
             pstm.setInt(3, sessionCours.getNbreInscrits());
-            pstm.setInt(4, sessionCours.getLocal().getId_Local());
-            pstm.setInt(5, sessionCours.getCours().getId_Cours());
-            pstm.setInt(6, sessionCours.getId_SessionCours());
+            pstm.setInt(4, sessionCours.getId_SessionCours());
             int n = pstm.executeUpdate();
             if (n != 0) return readSessionCours(sessionCours.getId_SessionCours());
             else return null;

@@ -10,26 +10,28 @@ import mvp.view.*;
 public class GestCli {
 
     public static void main(String[] args) {
-        /*DAOCours cm = new CoursModelDB();
+       DAOCours cm = new CoursModelDB();
         CoursViewInterface cv = new CoursViewConsole();
         CoursPresenter cp = new CoursPresenter(cm,cv);//création et injection de dépendance
-        cp.start();*/
+        //cp.start();
 
-        /*DAOFormateur fm = new FormateurModelDB();
+        DAOFormateur fm = new FormateurModelDB();
         FormateurViewInterface fv = new FormateurViewConsole();
         FormateurPresenter fp = new FormateurPresenter(fm,fv);//création et injection de dépendance
-        fp.start();*/
+        //fp.start();
 
-        /*DAOLocal lo = new LocalModelDB();
+        DAOLocal lo = new LocalModelDB();
         LocalViewInterface lv = new LocalViewConsole();
         LocalPresenter lp= new LocalPresenter(lo,lv);
-        lp.start();*/
 
 
-        DAOSessionCours ls = new SessionCoursModelDB();
-        SessionCoursViewInterface lv = new SessionCoursViewConsole();
-        SessionCoursPresenter lp= new SessionCoursPresenter(ls,lv);
-        lp.start();
+
+        DAOSessionCours ss = new SessionCoursModelDB();
+        SessionCoursViewInterface sv = new SessionCoursViewConsole();
+        SessionCoursPresenter sp= new SessionCoursPresenter(ss,sv);
+        sp.setCoursPresenter(cp);
+        sp.setLocalPresenter(lp);
+        sp.start();
 
     }
 }

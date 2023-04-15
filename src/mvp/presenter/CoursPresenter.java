@@ -6,13 +6,18 @@ import Classes.SessionCours;
 import mvp.model.CoursSpecial;
 import mvp.model.DAOCours;
 import mvp.view.CoursViewInterface;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
+
 
 public class CoursPresenter {
 
     private DAOCours model;
     private CoursViewInterface view;
+
+    private static final Logger logger = LogManager.getLogger(CoursPresenter.class);
 
     public CoursPresenter(DAOCours model, CoursViewInterface view) {
         this.model = model;
@@ -23,6 +28,12 @@ public class CoursPresenter {
     public void start() {
         List<Cours> cours = model.getCours();
         view.setListDatas(cours);
+    }
+
+    public Cours selectionner(){
+        logger.info("Appel de selection cours");
+        Cours cr = view.selectionner(model.getCours());
+        return cr;
     }
     public void update(Cours cours) {
         Cours cr = model.updateCours(cours);

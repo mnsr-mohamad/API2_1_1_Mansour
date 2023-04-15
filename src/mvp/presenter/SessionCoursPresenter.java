@@ -2,9 +2,13 @@ package mvp.presenter;
 
 
 import Classes.Cours;
+import Classes.Local;
 import Classes.SessionCours;
 import mvp.model.DAOSessionCours;
 import mvp.view.SessionCoursViewInterface;
+import mvp.presenter.CoursPresenter;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
@@ -13,7 +17,12 @@ public class SessionCoursPresenter {
 
     private DAOSessionCours model;
     private SessionCoursViewInterface view;
+    private static final Logger logger = LogManager.getLogger(SessionCoursPresenter.class);
+    private CoursPresenter coursPresenter;
+    private LocalPresenter localPresenter;
 
+    public void setCoursPresenter (CoursPresenter coursPresenter){ this.coursPresenter = coursPresenter;}
+    public void setLocalPresenter (LocalPresenter localPresenter){this.localPresenter = localPresenter;}
     public SessionCoursPresenter(DAOSessionCours model, SessionCoursViewInterface view) {
         this.model = model;
         this.view = view;
@@ -33,6 +42,10 @@ public class SessionCoursPresenter {
 
 
     public void addSessionCours(SessionCours sessioncours) {
+        Cours cr = coursPresenter.selectionner();
+        Local lo = localPresenter.selectionner();
+        sessioncours.setCours(cr);
+        sessioncours.setLocal(lo);
         SessionCours sc = model.addSessionCours(sessioncours);
         if (sc != null) view.affMsg("création de :" + sc);
         else view.affMsg("erreur de création");

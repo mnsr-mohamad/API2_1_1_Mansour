@@ -7,8 +7,7 @@ import utilitaires.Utilitaire;
 import java.util.List;
 import java.util.Scanner;
 
-import static utilitaires.Utilitaire.affListe;
-import static utilitaires.Utilitaire.choixElt;
+import static utilitaires.Utilitaire.*;
 
 public class CoursViewConsole implements CoursViewInterface {
     private CoursPresenter presenter;
@@ -40,6 +39,13 @@ public class CoursViewConsole implements CoursViewInterface {
     @Override
     public void affList(List infos) {
         affListe(infos);
+    }
+
+    @Override
+    public Cours selectionner(List<Cours> lc) {
+        int n = choixListe(lc);
+        Cours cours = lc.get(n-1);
+        return cours;
     }
 
 

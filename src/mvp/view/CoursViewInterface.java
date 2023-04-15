@@ -14,4 +14,5 @@ public interface CoursViewInterface {
 
     public void affList(List infos);
 
+    public  Cours selectionner(List<Cours> lc);
 }
