@@ -1,8 +1,11 @@
 package mvp.presenter;
 
 import Classes.Formateur;
+import Classes.SessionCours;
 import mvp.model.DAOFormateur;
 import mvp.view.FormateurViewInterface;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
@@ -10,7 +13,7 @@ public class FormateurPresenter {
 
     private DAOFormateur model;
     private FormateurViewInterface view;
-
+    private static final Logger logger = LogManager.getLogger(FormateurPresenter.class);
     public FormateurPresenter(DAOFormateur model, FormateurViewInterface view) {
         this.model = model;
         this.view = view;
@@ -55,5 +58,24 @@ public class FormateurPresenter {
         Formateur fr = model.readFormateur(id_Formateur);
         if(fr==null) view.affMsg("recherche infructueuse");
         else view.affMsg(fr.toString());
+    }
+
+    public Formateur selectionner(SessionCours sess){
+        logger.info("Appel de la selection : ");
+        Formateur fo = view.selectionner(model.gest_Formateur_dispo(sess));
+        return fo;
+    }
+
+    public boolean repet(SessionCours sess){
+        logger.info("Passage de la boucle :  ");
+        Boolean verif = view.repet(model.gest_Formateur_dispo(sess));
+        return verif;
+
+    }
+
+    public int nbreheure(){
+        logger.info("Appel de l'heure ");
+        int heures = view.nbreheures();
+        return heures;
     }
 }

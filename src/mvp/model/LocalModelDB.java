@@ -1,6 +1,5 @@
 package mvp.model;
 
-import Classes.Formateur;
 import Classes.Local;
 import myconnections.DBConnection;
 import org.apache.logging.log4j.LogManager;
@@ -9,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class LocalModelDB implements DAOLocal{
 
@@ -144,4 +144,42 @@ public class LocalModelDB implements DAOLocal{
 
 
     }
+
+
+   /* @Override
+    public List<Local> insertion_local(Local local) {
+        Connection dbConnect = DBConnection.getConnection();
+        if (dbConnect == null) {
+            System.exit(0);
+        }
+        System.out.println("Connexion établie");
+
+        try (CallableStatement cs = dbConnect.prepareCall("{CALL insert_local(?,?,?,?)}")) {
+            Scanner sc = new Scanner(System.in);
+            System.out.print("Sigle : ");
+            String sigle = sc.nextLine();
+            System.out.print("Places : ");
+            int places = sc.nextInt();
+            sc.skip("\n");
+            System.out.print("Description : ");
+            String description = sc.nextLine();
+
+            cs.setString(1, sigle);
+            cs.setInt(2, places);
+            cs.setString(3, description);
+
+
+            cs.executeUpdate();
+
+            int id_local = cs.getInt(4);
+            System.out.println("L'id du local ajouté est " + id_local);
+        } catch (SQLException e) {
+            System.out.println("Erreur SQL : " + e);
+        } catch (Exception e) {
+            System.out.println("Exception : " + e);
+        }
+
+        DBConnection.closeConnection();
+
+    }*/
 }

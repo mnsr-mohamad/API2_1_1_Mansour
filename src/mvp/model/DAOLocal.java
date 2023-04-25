@@ -16,4 +16,6 @@ public interface DAOLocal {
     Local updateLocal(Local Local);
 
     Local readLocal(int Local  );
+
+
 }

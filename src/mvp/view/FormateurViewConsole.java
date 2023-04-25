@@ -1,13 +1,15 @@
 package mvp.view;
 
 import Classes.Formateur;
+import Classes.SessionCours;
 import mvp.presenter.FormateurPresenter;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-import static utilitaires.Utilitaire.affListe;
-import static utilitaires.Utilitaire.choixElt;
+import static utilitaires.Utilitaire.*;
 
 public class FormateurViewConsole implements FormateurViewInterface{
 
@@ -41,6 +43,38 @@ public class FormateurViewConsole implements FormateurViewInterface{
     @Override
     public void affList(List infos) {
         affListe(infos);
+    }
+
+    @Override
+    public Formateur selectionner(List<Formateur> formateur) {
+        int nl = choixListe(formateur);
+        Formateur fo = formateur.get(nl-1);
+        return fo;
+    }
+
+    @Override
+    public boolean repet(List<Formateur> formateur) {
+        List string = new ArrayList(Arrays.asList("oui","non"));
+        System.out.println("Autre formateur : ");
+        int choix = choixListe(string);
+        if (!formateur.isEmpty()){
+            if(choix==1){
+                return true;
+            }
+            return false;
+        }
+        else{
+            System.out.println("Plus de formateur ");
+            return false;
+        }
+    }
+
+    @Override
+    public int nbreheures() {
+        System.out.println("Entrez le nombre d'heures du formateurs : ");
+        int heures=sc.nextInt();
+        sc.skip("\n");
+        return heures;
     }
 
 

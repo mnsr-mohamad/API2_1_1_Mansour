@@ -13,7 +13,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SessionCoursModelDB implements DAOSessionCours{
+public class SessionCoursModelDB implements DAOSessionCours,SessionCoursSpecial{
 
     private Connection dbConnect;
     private static final Logger logger = LogManager.getLogger(SessionCoursModelDB.class);
@@ -195,6 +195,23 @@ public class SessionCoursModelDB implements DAOSessionCours{
         } catch (SQLException e) {
             logger.error("Erreur SQL : " + e);
             return null;
+        }
+    }
+
+    @Override
+    public boolean add_infos(SessionCours sess, Formateur form,int nh) {
+        String query = "INSERT INTO APIINFOS (id_formateur,id_sessioncours,nh) VALUES (?,?,?)";
+        try (PreparedStatement pstm = dbConnect.prepareStatement(query)) {
+            pstm.setInt(1, form.getId_Formateur());
+            pstm.setInt(2, sess.getId_SessionCours());
+            pstm.setInt(3, nh);
+            int n = pstm.executeUpdate();
+            if (n != 0) return true;
+            else return false;
+        } catch (SQLException e) {
+            // System.err.println("erreur sql :" + e);
+            logger.error("erreur SQL : " + e);
+            return false;
         }
     }
 }

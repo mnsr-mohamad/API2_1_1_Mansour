@@ -58,6 +58,7 @@ public class LocalPresenter {
 
     }
 
+
     public List<Local> getAll() {
         return model.getLocal();
     }
@@ -66,5 +67,10 @@ public class LocalPresenter {
         Local lo = model.readLocal(id_Local);
         if(lo==null) view.affMsg("recherche infructueuse");
         else view.affMsg(lo.toString());
+    }
+
+
+    public void insertion_local(Local local){
+
     }
 }

@@ -30,8 +30,7 @@ public class GestCli {
         DAOSessionCours ss = new SessionCoursModelDB();
         SessionCoursViewInterface sv = new SessionCoursViewConsole();
         SessionCoursPresenter sp= new SessionCoursPresenter(ss,sv);
-        sp.setCoursPresenter(cp);
-        sp.setLocalPresenter(lp);
+
 
         Scanner sc = new Scanner(System.in);
         do {
@@ -47,15 +46,16 @@ public class GestCli {
                     fp.start();
                     break;
                 case 3:
-
                     lp.start();
                     break;
                 case 4:
                     sp.setCoursPresenter(cp);
                     sp.setLocalPresenter(lp);
+                    sp.setFormateurPresenter(fp);
                     sp.start();
                     break;
                 case 5:
+
                     System.exit(0);
             }
         } while (true);

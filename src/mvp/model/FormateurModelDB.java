@@ -2,6 +2,7 @@ package mvp.model;
 
 import Classes.Cours;
 import Classes.Formateur;
+import Classes.SessionCours;
 import myconnections.DBConnection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -139,6 +140,36 @@ public class FormateurModelDB implements DAOFormateur {
             logger.error("erreur SQL : " + e);
             return null;
         }
+    }
+
+    @Override
+    public List<Formateur> gest_Formateur_dispo(SessionCours sess) {
+        List<Formateur> lf = new ArrayList<>();
+        String query = "select * FROM APIFORMATEUR where id_formateur NOT IN (SELECT F.id_formateur FROM APIINFOS I INNER JOIN APISESSIONCOURS SC on I.id_sessioncours = SC.id_sessioncours INNER JOIN APIFORMATEUR F on I.id_formateur = F.id_formateur WHERE I.id_sessioncours = ?)";
+        try(PreparedStatement pstm = dbConnect.prepareStatement(query)) {
+            pstm.setInt(1,sess.getId_SessionCours());
+            ResultSet rs = pstm.executeQuery();
+            while(rs.next()){
+                int id_formateur = rs.getInt(1);
+                String mail = rs.getString(2);
+                String nom = rs.getString(3);
+                String prenom = rs.getString(4);
+
+                 Formateur f  = new Formateur(id_formateur,mail,nom,prenom);
+                lf.add(f);
+            }
+            return lf;
+        } catch (SQLException e) {
+            //System.out.println("Erreur sql : "+e);
+            logger.error("Erreur SQL : "+e);
+            return null;
+        }
+
+
+
+
+
+
     }
 
 

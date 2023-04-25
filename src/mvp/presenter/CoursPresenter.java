@@ -87,6 +87,8 @@ public class CoursPresenter {
         List<SessionCours> lcs = ((CoursSpecial)model).SessionsParLocal(cours);
         if(lcs==null || lcs.isEmpty()) view.affMsg("aucune sessions trouvée");
         else view.affList(lcs);
+
+
     }
 
 
