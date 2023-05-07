@@ -123,6 +123,8 @@ public class SessionCoursViewConsole implements SessionCoursViewInterface {
         System.out.println("id de la session : ");
         int id_sessioncours = sc.nextInt();
         presenter.search(id_sessioncours);
+
+
     }
 
 

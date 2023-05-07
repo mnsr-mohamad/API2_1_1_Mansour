@@ -1,9 +1,6 @@
 package mvp.model;
 
-import Classes.Cours;
-import Classes.Formateur;
-import Classes.Local;
-import Classes.SessionCours;
+import Classes.*;
 import myconnections.DBConnection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -214,4 +211,26 @@ public class SessionCoursModelDB implements DAOSessionCours,SessionCoursSpecial{
             return false;
         }
     }
+
+    @Override
+    public boolean remove_infos(SessionCours sess) {
+        String query = "DELETE FROM APIINFOS WHERE id_sessioncours=?";
+        try (PreparedStatement pstm = dbConnect.prepareStatement(query)) {
+            pstm.setInt(1, sess.getId_SessionCours());
+            int n = pstm.executeUpdate();
+            if (n != 0) return true;
+            else return false;
+
+        } catch (SQLException e) {
+            logger.error("erreur sql :" + e);
+            return false;
+        }
+    }
+
+
+
+
+
+
+
 }

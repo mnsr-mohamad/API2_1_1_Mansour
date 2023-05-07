@@ -70,6 +70,7 @@ public class SessionCoursPresenter {
 
 
     public void removeSessionCours(SessionCours sessioncours) {
+        remove_infos(sessioncours);
         boolean ok = model.removeSessionCours(sessioncours);
         if (ok) view.affMsg("session du cours effacé");
         else view.affMsg("session du cours  non effacé");
@@ -101,6 +102,13 @@ public class SessionCoursPresenter {
             repet = formateurPresenter.repet(sess);
         }
     }
+
+    public void remove_infos(SessionCours sess){
+        Boolean verif = ((SessionCoursSpecial)model).remove_infos(sess);
+        if (verif) view.affMsg("Infos effacé");
+        else view.affMsg("Infos non effacé");
+    }
+
 
 
 }
