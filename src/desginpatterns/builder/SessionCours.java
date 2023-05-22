@@ -1,8 +1,8 @@
 package desginpatterns.builder;
 
-import Classes.Cours;
-import Classes.Infos;
-import Classes.Local;
+
+
+
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -237,6 +237,7 @@ public class SessionCours {
 
             return new SessionCours(this);
         }
+
 
 
     }

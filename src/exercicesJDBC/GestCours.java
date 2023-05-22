@@ -101,6 +101,8 @@ public class GestCours {
             } else System.out.println("record introuvable");
         } catch (SQLException e) {
             System.out.println("erreur sql :" + e);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }
@@ -260,7 +262,12 @@ public class GestCours {
                 String mail = rs.getString(2);
                 String nom = rs.getString(3);
                 String prenom = rs.getString(4);
-                Formateur fo = new Formateur(nc, mail, nom, prenom);
+                Formateur fo = null;
+                try {
+                    fo = new Formateur(nc, mail, nom, prenom);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 System.out.println(fo);
             }
             if (!trouve) System.out.println("aucune formateur trouvé");

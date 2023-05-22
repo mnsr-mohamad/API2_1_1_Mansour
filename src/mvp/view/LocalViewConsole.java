@@ -4,12 +4,13 @@ import Classes.Cours;
 import Classes.Local;
 import mvp.presenter.LocalPresenter;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
 import static utilitaires.Utilitaire.*;
 
-public class LocalViewConsole implements LocalViewInterface{
+public class LocalViewConsole implements LocalViewInterface {
 
     private LocalPresenter presenter;
     private List<Local> ll;
@@ -46,16 +47,14 @@ public class LocalViewConsole implements LocalViewInterface{
     @Override
     public Local selectionner(List<Local> lo) {
         int n = choixListe(lo);
-        Local local = lo.get(n-1);
+        Local local = lo.get(n - 1);
         return local;
     }
 
     public void menu() {
         do {
-            System.out.println("1.ajout\n2.retrait\n3.modifier\n4.rechercher\n5.fin");
+            int ch = choixListe(Arrays.asList("ajout", "retrait", "modifier", "rechercher", "fin"));
 
-            int ch = sc.nextInt();
-            sc.skip("\n");
             switch (ch) {
                 case 1:
                     ajouter();
@@ -70,7 +69,9 @@ public class LocalViewConsole implements LocalViewInterface{
                     rechercher();
                     break;
                 case 5:
-                    System.exit(0);
+                    return;
+                default:
+                    System.out.println("choix invalide recommencez ");
             }
         } while (true);
     }
@@ -90,19 +91,31 @@ public class LocalViewConsole implements LocalViewInterface{
         sc.skip("\n");
         System.out.print("description : ");
         String description = sc.nextLine();
+        try {
+            presenter.addLocal(new Local(0, sigle, places, description));
 
-        presenter.addLocal(new Local(0,sigle , places, description));
+        } catch (Exception e) {
+            System.out.println("Erreur lors de l'ajout" + e.getMessage());
+
+        }
+
     }
 
     private void modifier() {
         int nl = choixElt(ll);
         Local local = ll.get(nl - 1);
         String sigle = modifyIfNotBlank("sigle", local.getSigle());
-        int places = Integer.parseInt(modifyIfNotBlank("places", ""+local.getPlaces()));
+        int places = Integer.parseInt(modifyIfNotBlank("places", "" + local.getPlaces()));
         String descritpion = modifyIfNotBlank("description", local.getDescription());
-        presenter.update(new Local(local.getId_Local(), sigle,places,descritpion));
-        ll = presenter.getAll();//rafraichissement
-        affListe(ll);
+        try{
+            presenter.update(new Local(local.getId_Local(), sigle, places, descritpion));
+            ll = presenter.getAll();//rafraichissement
+            affListe(ll);
+        }
+        catch (Exception e) {
+            System.out.println("Erreur lors de l'ajout" + e.getMessage());
+
+        }
 
     }
 
@@ -119,13 +132,6 @@ public class LocalViewConsole implements LocalViewInterface{
         int id_local = sc.nextInt();
         presenter.search(id_local);
     }
-
-
-
-
-
-
-
 
 
 }

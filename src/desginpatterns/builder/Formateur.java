@@ -1,4 +1,4 @@
-package desginpatterns.observer;
+package desginpatterns.builder;
 
 /**
  * classe Formateur du projet
@@ -6,7 +6,7 @@ package desginpatterns.observer;
  * @author Mansour Mohamad
  * @version 1.0
  */
-public class Formateur extends Observer{
+public class Formateur {
     /**
      * identifiant du formateur
      */
@@ -128,10 +128,5 @@ public class Formateur extends Observer{
                 ", nom='" + nom + '\'' +
                 ", prenom='" + prenom + '\'' +
                 '}';
-    }
-
-    @Override
-    public void update(String msg) {
-        System.out.println(nom+" a été informé du changement ");
     }
 }

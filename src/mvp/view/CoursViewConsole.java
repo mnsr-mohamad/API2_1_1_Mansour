@@ -4,6 +4,7 @@ import Classes.Cours;
 import mvp.presenter.CoursPresenter;
 import utilitaires.Utilitaire;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -44,16 +45,15 @@ public class CoursViewConsole implements CoursViewInterface {
     @Override
     public Cours selectionner(List<Cours> lc) {
         int n = choixListe(lc);
-        Cours cours = lc.get(n-1);
+        Cours cours = lc.get(n - 1);
         return cours;
     }
 
 
     public void menu() {
         do {
-            System.out.println("1.ajout\n2.retrait\n3.modifier\n4.rechercher\n5.special\n6.fin");
+            int ch = choixListe(Arrays.asList("ajout", "retrait", "modifier", "recherche", "special", "fin"));
 
-            int ch = sc.nextInt();
             sc.skip("\n");
             switch (ch) {
                 case 1:
@@ -71,8 +71,10 @@ public class CoursViewConsole implements CoursViewInterface {
                 case 5:
 
                     special();
-                case 6 :
-                    System.exit(0);
+                case 6:
+                    return;
+                default:
+                    System.out.println("choix invalide recommencez ");
             }
         } while (true);
     }
@@ -89,7 +91,12 @@ public class CoursViewConsole implements CoursViewInterface {
         String matiere = sc.nextLine();
         System.out.print("nombres d'heures : ");
         int heures = sc.nextInt();
-        presenter.addCours(new Cours(0, matiere, heures));
+        try {
+            presenter.addCours(new Cours(0, matiere, heures));
+        } catch (Exception e) {
+            System.out.println("Erreur " + e.getMessage());
+        }
+
     }
 
     private void modifier() {
@@ -97,9 +104,13 @@ public class CoursViewConsole implements CoursViewInterface {
         Cours cours = lc.get(nl - 1);
         String matiere = modifyIfNotBlank("matiere", cours.getMatiere());
         int heures = Integer.parseInt(modifyIfNotBlank("heures", "" + cours.getHeures()));
-        presenter.update(new Cours(cours.getId_Cours(), matiere, heures));
-        lc = presenter.getAll();//rafraichissement
-        affListe(lc);
+        try {
+            presenter.update(new Cours(cours.getId_Cours(), matiere, heures));
+            lc = presenter.getAll();//rafraichissement
+            affListe(lc);
+        } catch (Exception e) {
+            System.out.println("Erreur " + e.getMessage());
+        }
 
     }
 
@@ -117,15 +128,13 @@ public class CoursViewConsole implements CoursViewInterface {
         presenter.search(id_cours);
     }
 
-    public void special(){
-        int choix =  choixElt(lc);
-        Cours cr = lc.get(choix-1);
-        System.out.println("Vous avez choisi le cours "+cr);
+    public void special() {
+        int choix = choixElt(lc);
+        Cours cr = lc.get(choix - 1);
+        System.out.println("Vous avez choisi le cours " + cr);
         do {
-            System.out.println("1.Formateurs par cours\n2.Sessions par local\n3.Sessions entre 2 dates\n4.menu principal");
-            System.out.println("choix : ");
-            int ch = sc.nextInt();
-            sc.skip("\n");
+            int ch = choixListe(Arrays.asList("Formateurs par cours", "Sessions par local", "Sessions entre 2 dates", "menu principal"));
+
             switch (ch) {
                 case 1:
                     presenter.FormateursCours(cr);
@@ -136,7 +145,7 @@ public class CoursViewConsole implements CoursViewInterface {
                 case 3:
                     presenter.SessionsEntreDate(cr);
                     break;
-                case 4 :
+                case 4:
                     return;
                 default:
                     System.out.println("choix invalide recommencez ");

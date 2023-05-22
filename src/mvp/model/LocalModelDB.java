@@ -88,7 +88,12 @@ public class LocalModelDB implements DAOLocal{
                 String sigle = rs.getString(2);
                 int places = rs.getInt(3);
                 String descriptions = rs.getString(4);
-                Local lc = new Local(id_local, sigle, places, descriptions);
+                Local lc = null;
+                try {
+                    lc = new Local(id_local, sigle, places, descriptions);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 ll.add(lc);
             }
             return ll;
@@ -128,7 +133,12 @@ public class LocalModelDB implements DAOLocal{
                 String sigle = rs.getString(2);
                 int places = rs.getInt(3);
                 String descriptions = rs.getString(4);
-                Local lc = new Local(id_Local, sigle, places, descriptions);
+                Local lc = null;
+                try {
+                    lc = new Local(id_Local, sigle, places, descriptions);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
                 return lc;
 

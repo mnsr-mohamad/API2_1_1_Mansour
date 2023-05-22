@@ -115,7 +115,12 @@ public class SessionCoursModelDB implements DAOSessionCours,SessionCoursSpecial{
                 String sigle = rs.getString("sigle");
                 int places = rs.getInt("places");
                 String description = rs.getString("descriptions");
-                Local local = new Local(id_local,sigle, places, description);
+                Local local = null;
+                try {
+                    local = new Local(id_local,sigle, places, description);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 return local;
             } else {
                 logger.error("Le local avec l'id " + id + " n'existe pas.");
@@ -137,7 +142,12 @@ public class SessionCoursModelDB implements DAOSessionCours,SessionCoursSpecial{
                 int id_cours = rs.getInt("id_cours");
                 String matiere = rs.getString("matière");
                 int heures = rs.getInt("heures");
-                Cours cours = new Cours(id_cours, matiere, heures);
+                Cours cours = null;
+                try {
+                    cours = new Cours(id_cours, matiere, heures);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 return cours;
             } else {
                 logger.error("Le cours avec l'id " + id + " n'existe pas.");
@@ -227,10 +237,55 @@ public class SessionCoursModelDB implements DAOSessionCours,SessionCoursSpecial{
         }
     }
 
+    @Override
+    public int getTotalHeuresFormateurs(SessionCours sess) {
+        int totalHeuresFormateurs = 0;
+        String query = "SELECT SUM(nh) FROM APIINFOS WHERE id_sessioncours = ?";
+        try (PreparedStatement pstm = dbConnect.prepareStatement(query)) {
+            pstm.setInt(1, sess.getId_SessionCours());
+            ResultSet rs = pstm.executeQuery();
+            if (rs.next()) {
+                totalHeuresFormateurs = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            logger.error("Erreur SQL : " + e);
+        }
+        return totalHeuresFormateurs;
+    }
+
+    @Override
+    public void supp_infos(SessionCours sess) {
+        String query = "DELETE FROM APIINFOS WHERE id_sessioncours = ?";
+        try (PreparedStatement pstm = dbConnect.prepareStatement(query)) {
+            pstm.setInt(1, sess.getId_SessionCours());
+            int rowsAffected = pstm.executeUpdate();
+            if (rowsAffected > 0) {
+                logger.info("Suppression des données réussie pour la session de cours : " + sess.getId_SessionCours());
+            } else {
+                logger.info("Aucune donnée à supprimer pour la session de cours : " + sess.getId_SessionCours());
+            }
+        } catch (SQLException e) {
+            logger.error("Erreur SQL lors de la suppression des données : " + e);
+        }
+    }
+
+    @Override
+    public void supp_sess(SessionCours sess) {
+        String query = "DELETE FROM APISESSIONCOURS  WHERE id_sessioncours = ?";
+        try (PreparedStatement pstm = dbConnect.prepareStatement(query)) {
+            pstm.setInt(1, sess.getId_SessionCours());
+            int rowsAffected = pstm.executeUpdate();
+            if (rowsAffected > 0) {
+                logger.info("Suppression des données réussie pour la session de cours : " + sess.getId_SessionCours());
+            } else {
+                logger.info("Aucune donnée à supprimer pour la session de cours : " + sess.getId_SessionCours());
+            }
+        } catch (SQLException e) {
+            logger.error("Erreur SQL lors de la suppression des données : " + e);
+        }
 
 
-
-
+    }
 
 
 }

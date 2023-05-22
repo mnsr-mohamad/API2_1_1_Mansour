@@ -88,7 +88,12 @@ public class FormateurModelDB implements DAOFormateur {
                 String mail = rs.getString(2);
                 String nom = rs.getString(3);
                 String prenom = rs.getString(4);
-                Formateur fr = new Formateur(id_formateur, mail, nom, prenom);
+                Formateur fr = null;
+                try {
+                    fr = new Formateur(id_formateur, mail, nom, prenom);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 lf.add(fr);
             }
             return lf;
@@ -128,7 +133,12 @@ public class FormateurModelDB implements DAOFormateur {
                 String mail = rs.getString(2);
                 String nom = rs.getString(3);
                 String prenom = rs.getString(4);
-                Formateur fr = new Formateur(id_Formateur, mail, nom, prenom);
+                Formateur fr = null;
+                try {
+                    fr = new Formateur(id_Formateur, mail, nom, prenom);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
                 return fr;
 
@@ -155,7 +165,12 @@ public class FormateurModelDB implements DAOFormateur {
                 String nom = rs.getString(3);
                 String prenom = rs.getString(4);
 
-                 Formateur f  = new Formateur(id_formateur,mail,nom,prenom);
+                Formateur f  = null;
+                try {
+                    f = new Formateur(id_formateur,mail,nom,prenom);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 lf.add(f);
             }
             return lf;

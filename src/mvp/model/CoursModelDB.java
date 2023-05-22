@@ -92,12 +92,15 @@ public class CoursModelDB implements DAOCours,CoursSpecial {
                 Cours cr = new Cours(id_cours, matiere, heures);
                 lc.add(cr);
             }
-            return lc;
+
         } catch (SQLException e) {
             //System.err.println("erreur sql :"+e);
             logger.error("erreur sql :" + e);
             return null;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return lc;
     }
 
 
@@ -129,9 +132,14 @@ public class CoursModelDB implements DAOCours,CoursSpecial {
             if (rs.next()) {
                 String matiere = rs.getString(2);
                 int heures = rs.getInt(3);
-                Cours cr = new Cours(id_cours, matiere, heures);
-
+                Cours cr = null;
+                try {
+                    cr = new Cours(id_cours, matiere, heures);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 return cr;
+
 
             } else {
                 return null;
@@ -140,9 +148,10 @@ public class CoursModelDB implements DAOCours,CoursSpecial {
             // System.err.println("erreur sql :"+e);
             logger.error("erreur SQL : " + e);
             return null;
+
+
         }
     }
-
 
     @Override
     public List<Formateur> FormateursCours(Cours cours) {
@@ -161,7 +170,12 @@ public class CoursModelDB implements DAOCours,CoursSpecial {
                 String mail = rs.getString("mail");
                 String nom = rs.getString("nom");
                 String prenom = rs.getString("prenom");
-                Formateur formateur = new Formateur(idFormateur, mail, nom, prenom);
+                Formateur formateur = null;
+                try {
+                    formateur = new Formateur(idFormateur, mail, nom, prenom);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 formateurs.add(formateur);
             }
         } catch (SQLException e) {
@@ -194,7 +208,12 @@ public class CoursModelDB implements DAOCours,CoursSpecial {
                 String sigle = rs.getString("sigle");
                 int places = rs.getInt("places");
                 String description = rs.getString("descriptions");
-                Local local = new Local(idLocal, sigle, places, description);
+                Local local = null;
+                try {
+                    local = new Local(idLocal, sigle, places, description);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 SessionCours session = new SessionCours(idSessionCours, dateDebut, dateFin, nbreInscrits, cours, local);
                 sessions.add(session);
             }
@@ -239,7 +258,12 @@ public class CoursModelDB implements DAOCours,CoursSpecial {
                 String sigle = rs.getString("sigle");
                 int places = rs.getInt("places");
                 String description = rs.getString("descriptions");
-                Local local = new Local(idLocal, sigle, places, description);
+                Local local = null;
+                try {
+                    local = new Local(idLocal, sigle, places, description);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 SessionCours session = new SessionCours(idSessionCours, sessionDateDebut, sessionDateFin, nbreInscrits, cours, local);
                 sessions.add(session);
             }

@@ -33,7 +33,8 @@ public class Formateur {
      * @param nom          nom du formateur
      * @param prenom       prenom du formateur
      */
-    public Formateur(int id_Formateur, String mail, String nom, String prenom) {
+    public Formateur(int id_Formateur, String mail, String nom, String prenom) throws Exception {
+        if(mail.trim().equals("") || nom.trim().equals("") || prenom.trim().equals(""))throw new Exception(" Il y'a une ou plusieurs entrée invalide  ");
         this.id_Formateur = id_Formateur;
         this.mail = mail;
         this.nom = nom;

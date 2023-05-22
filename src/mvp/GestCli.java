@@ -6,7 +6,10 @@ import mvp.presenter.FormateurPresenter;
 import mvp.presenter.LocalPresenter;
 import mvp.presenter.SessionCoursPresenter;
 import mvp.view.*;
+import utilitaires.Utilitaire;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class GestCli {
@@ -33,11 +36,12 @@ public class GestCli {
 
 
         Scanner sc = new Scanner(System.in);
+        boolean quitter = false;
+        List<String> loptions = Arrays.asList("Cours","Formateur", "Local", "SessionCours", "Fin");
         do {
-            System.out.println("1.Cours\n2.Formateur\n3.Local\n4.SessionCours\n5.Fin");
 
-            int ch = sc.nextInt();
-            sc.skip("\n");
+            int ch = Utilitaire.choixListe(loptions);
+
             switch (ch) {
                 case 1:
                     cp.start();
@@ -55,10 +59,11 @@ public class GestCli {
                     sp.start();
                     break;
                 case 5:
-
-                    System.exit(0);
+                    quitter = true;
+                    break;
             }
-        } while (true);
+        } while (!quitter);
+
     }
 
 

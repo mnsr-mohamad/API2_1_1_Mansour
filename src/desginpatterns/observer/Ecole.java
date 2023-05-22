@@ -1,7 +1,6 @@
 package desginpatterns.observer;
 
-import Classes.Cours;
-import Classes.Local;
+
 
 import java.time.LocalDate;
 

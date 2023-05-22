@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 import static utilitaires.Utilitaire.*;
 
-public class FormateurViewConsole implements FormateurViewInterface{
+public class FormateurViewConsole implements FormateurViewInterface {
 
 
     private FormateurPresenter presenter;
@@ -48,22 +48,22 @@ public class FormateurViewConsole implements FormateurViewInterface{
     @Override
     public Formateur selectionner(List<Formateur> formateur) {
         int nl = choixListe(formateur);
-        Formateur fo = formateur.get(nl-1);
+        Formateur fo = formateur.get(nl - 1);
         return fo;
     }
 
+
     @Override
     public boolean repet(List<Formateur> formateur) {
-        List string = new ArrayList(Arrays.asList("oui","non"));
+        List string = new ArrayList(Arrays.asList("oui", "non"));
         System.out.println("Autre formateur : ");
         int choix = choixListe(string);
-        if (!formateur.isEmpty()){
-            if(choix==1){
+        if (!formateur.isEmpty()) {
+            if (choix == 1) {
                 return true;
             }
             return false;
-        }
-        else{
+        } else {
             System.out.println("Plus de formateur ");
             return false;
         }
@@ -72,18 +72,15 @@ public class FormateurViewConsole implements FormateurViewInterface{
     @Override
     public int nbreheures() {
         System.out.println("Entrez le nombre d'heures du formateurs : ");
-        int heures=sc.nextInt();
-        sc.skip("\n");
+        int heures = sc.nextInt();
         return heures;
     }
 
 
     public void menu() {
         do {
-            System.out.println("1.ajout\n2.retrait\n3.modifier\n4.rechercher\n5.fin");
+            int ch = choixListe(Arrays.asList("ajout", "retrait", "modifier", "rechercher", "fin"));
 
-            int ch = sc.nextInt();
-            sc.skip("\n");
             switch (ch) {
                 case 1:
                     ajouter();
@@ -98,7 +95,9 @@ public class FormateurViewConsole implements FormateurViewInterface{
                     rechercher();
                     break;
                 case 5:
-                    System.exit(0);
+                    return;
+                default:
+                    System.out.println("choix invalide recommencez ");
             }
         } while (true);
     }
@@ -117,7 +116,12 @@ public class FormateurViewConsole implements FormateurViewInterface{
         String nom = sc.nextLine();
         System.out.print("prenom : ");
         String prenom = sc.nextLine();
-        presenter.addFormateur(new Formateur(0,mail , nom, prenom));
+        try {
+            presenter.addFormateur(new Formateur(0, mail, nom, prenom));
+        } catch (Exception e) {
+            System.out.println("Erreur " + e.getMessage());
+        }
+
     }
 
     private void modifier() {
@@ -126,9 +130,14 @@ public class FormateurViewConsole implements FormateurViewInterface{
         String mail = modifyIfNotBlank("mail", formateur.getMail());
         String nom = modifyIfNotBlank("nom", formateur.getNom());
         String prenom = modifyIfNotBlank("prenom", formateur.getPrenom());
-        presenter.update(new Formateur(formateur.getId_Formateur(), mail,nom,prenom));
-        lf = presenter.getAll();//rafraichissement
-        affListe(lf);
+        try {
+            presenter.update(new Formateur(formateur.getId_Formateur(), mail, nom, prenom));
+            lf = presenter.getAll();//rafraichissement
+            affListe(lf);
+
+        } catch (Exception e) {
+            System.out.println("Erreur " + e.getMessage());
+        }
 
     }
 

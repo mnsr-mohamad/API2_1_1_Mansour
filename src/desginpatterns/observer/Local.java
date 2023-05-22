@@ -1,5 +1,4 @@
-package Classes;
-
+package desginpatterns.observer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,27 +9,27 @@ import java.util.List;
  * @version 1.0
  * @see SessionCours
  */
-public class Local  {
+public class Local {
     /**
      * identifiant du Local
      */
-    private int id_Local;
+    protected int id_Local;
     /**
      * sigle du local
      */
-    private String sigle;
+    protected String sigle;
     /**
      * nombre de places
      */
-    private int places;
+    protected int places;
     /**
      * description du local
      */
-    private String description;
+    protected String description;
     /**
      * liste des sessions de cours
      */
-    private List<SessionCours> session = new ArrayList<>();
+    protected List<SessionCours> session = new ArrayList<>();
 
 
     /**
@@ -41,8 +40,7 @@ public class Local  {
      * @param places      nombre de places du local
      * @param description description du local
      */
-    public Local(int id_Local, String sigle, int places, String description) throws Exception {
-        if(sigle.trim().equals(" ")||places < 0 || description.trim().equals("")) throw new Exception(" Une ou plusieures informations sont invalides");
+    public Local(int id_Local, String sigle, int places, String description) {
         this.id_Local = id_Local;
         this.sigle = sigle;
         this.places = places;

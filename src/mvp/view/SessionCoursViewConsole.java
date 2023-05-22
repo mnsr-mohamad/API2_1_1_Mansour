@@ -7,12 +7,12 @@ import Classes.SessionCours;
 import mvp.presenter.SessionCoursPresenter;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
-import static utilitaires.Utilitaire.affListe;
-import static utilitaires.Utilitaire.choixElt;
+import static utilitaires.Utilitaire.*;
 
 public class SessionCoursViewConsole implements SessionCoursViewInterface {
 
@@ -49,10 +49,8 @@ public class SessionCoursViewConsole implements SessionCoursViewInterface {
 
     public void menu() {
         do {
-            System.out.println("1.ajout\n2.retrait\n3.modifier\n4.rechercher\n5.fin");
+            int ch = choixListe(Arrays.asList("ajout", "retrait", "modifier", "rechercher", "fin"));
 
-            int ch = sc.nextInt();
-            sc.skip("\n");
             switch (ch) {
                 case 1:
                     ajouter();
@@ -67,12 +65,12 @@ public class SessionCoursViewConsole implements SessionCoursViewInterface {
                     rechercher();
                     break;
                 case 5:
-                    System.exit(0);
+                    return;
+                default:
+                    System.out.println("choix invalide recommencez ");
             }
         } while (true);
     }
-
-
 
 
     private void retirer() {
@@ -95,17 +93,17 @@ public class SessionCoursViewConsole implements SessionCoursViewInterface {
         int nbInscrits = sc.nextInt();
         sc.nextLine();
 
-       presenter.addSessionCours(new SessionCours(0,dateDebut,dateFin,nbInscrits));
+        presenter.addSessionCours(new SessionCours(0, dateDebut, dateFin, nbInscrits));
     }
 
     private void modifier() {
-       int nl = choixElt(ls);
+        int nl = choixElt(ls);
         SessionCours sessioncours = ls.get(nl - 1);
-        LocalDate dateDebut = LocalDate.parse(modifyIfNotBlank("date de debut",""+ sessioncours.getDateDebut()));
-        LocalDate dateFin = LocalDate.parse(modifyIfNotBlank("date de fin",""+ sessioncours.getDateFin()));
-        int nbreinscrits = Integer.parseInt(modifyIfNotBlank("nombre d'inscrits", ""+sessioncours.getNbreInscrits()));
+        LocalDate dateDebut = LocalDate.parse(modifyIfNotBlank("date de debut", "" + sessioncours.getDateDebut()));
+        LocalDate dateFin = LocalDate.parse(modifyIfNotBlank("date de fin", "" + sessioncours.getDateFin()));
+        int nbreinscrits = Integer.parseInt(modifyIfNotBlank("nombre d'inscrits", "" + sessioncours.getNbreInscrits()));
 
-        presenter.update(new SessionCours(sessioncours.getId_SessionCours(), dateDebut,dateFin,nbreinscrits));
+        presenter.update(new SessionCours(sessioncours.getId_SessionCours(), dateDebut, dateFin, nbreinscrits));
         ls = presenter.getAll();//rafraichissement
         affListe(ls);
 
@@ -126,13 +124,6 @@ public class SessionCoursViewConsole implements SessionCoursViewInterface {
 
 
     }
-
-
-
-
-
-
-
 
 
 }

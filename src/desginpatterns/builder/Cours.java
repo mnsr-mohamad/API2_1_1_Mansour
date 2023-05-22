@@ -1,4 +1,6 @@
-package Classes;
+package desginpatterns.builder;
+
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,19 +16,19 @@ public class Cours {
     /**
      * identifiant du cours
      */
-    private int id_Cours;
+    protected int id_Cours;
     /**
      * matiere du cours
      */
-    private String matiere;
+    protected String matiere;
     /**
      * nombre d'heure des cours
      */
-    private int heures;
+    protected int heures;
     /**
      * liste des sessions du cours
      */
-    private List<SessionCours> session = new ArrayList<>();
+    protected List<SessionCours> session = new ArrayList<>();
 
     /**
      * constructeur paramétré
@@ -35,9 +37,8 @@ public class Cours {
      * @param matiere  nom du de la matière du cours
      * @param heures   nombre d'heure du cours
      */
-    public Cours(int id_Cours, String matiere, int heures)throws Exception {
-        if(matiere.trim().equals("") ) throw new Exception("Aucune matière rentré ");
-        if(heures <= 0 ) throw new Exception("Le nombre d'heures ne peut être négatif ou valoir 0");
+    public Cours(int id_Cours, String matiere, int heures) {
+
         this.id_Cours = id_Cours;
         this.matiere = matiere;
         this.heures = heures;
