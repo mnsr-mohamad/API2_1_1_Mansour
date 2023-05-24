@@ -109,7 +109,7 @@ public class FormateurViewConsole implements FormateurViewInterface {
     private void retirer() {
         int nl = choixElt(lf);
         Formateur formateur = lf.get(nl - 1);
-        presenter.removeFormateur(formateur);
+        presenter.remove(formateur);
 
     }
 
@@ -121,7 +121,7 @@ public class FormateurViewConsole implements FormateurViewInterface {
         System.out.print("prenom : ");
         String prenom = sc.nextLine();
         try {
-            presenter.addFormateur(new Formateur(0, mail, nom, prenom));
+            presenter.add(new Formateur(0, mail, nom, prenom));
         } catch (Exception e) {
             System.out.println("Erreur " + e.getMessage());
         }

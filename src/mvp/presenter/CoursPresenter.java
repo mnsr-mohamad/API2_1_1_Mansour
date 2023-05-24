@@ -5,13 +5,11 @@ import Classes.Formateur;
 import Classes.SessionCours;
 import mvp.model.CoursSpecial;
 import mvp.model.DAO;
-import mvp.model.DAOCours;
 import mvp.view.CoursViewInterface;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
-
 
 public class CoursPresenter {
 
@@ -31,34 +29,40 @@ public class CoursPresenter {
         view.setListDatas(cours);
     }
 
-    public Cours selectionner(){
-        logger.info("Appel de selection cours");
+    public Cours selectionner() {
+        logger.info("Appel de la sélection de cours");
         Cours cr = view.selectionner(model.getAll());
         return cr;
     }
+
     public void update(Cours cours) {
         Cours cr = model.update(cours);
-        if (cr == null) view.affMsg("mise à jour infructueuse");
-        else view.affMsg("mise à jour effectuée : " + cr);
-
+        if (cr == null) {
+            view.affMsg("Mise à jour infructueuse");
+        } else {
+            view.affMsg("Mise à jour effectuée : " + cr);
+        }
     }
-
 
     public void add(Cours cours) {
         Cours cr = model.add(cours);
-        if (cr != null) view.affMsg("création de :" + cr);
-        else view.affMsg("erreur de création");
+        if (cr != null) {
+            view.affMsg("Création de : " + cr);
+        } else {
+            view.affMsg("Erreur de création");
+        }
         List<Cours> cours2 = model.getAll();
         view.setListDatas(cours2);
     }
 
-
     public void remove(Cours cours) {
         boolean ok = model.remove(cours);
-        if (ok) view.affMsg("cours effacé");
-        else view.affMsg("cours non effacé");
+        if (ok) {
+            view.affMsg("Cours effacé");
+        } else {
+            view.affMsg("Cours non effacé");
+        }
         List<Cours> cours2 = model.getAll();
-
     }
 
     public List<Cours> getAll() {
@@ -67,32 +71,37 @@ public class CoursPresenter {
 
     public void search(int id_Cours) {
         Cours cr = model.read(id_Cours);
-        if(cr==null) view.affMsg("recherche infructueuse");
-        else view.affMsg(cr.toString());
+        if (cr == null) {
+            view.affMsg("Recherche infructueuse");
+        } else {
+            view.affMsg(cr.toString());
+        }
     }
 
-
-    public void FormateursCours (Cours cours){
-        List<Formateur> lcf = ((CoursSpecial)model).FormateursCours(cours);
-        if(lcf==null || lcf.isEmpty()) view.affMsg("aucun formateur trouvé");
-        else view.affList(lcf);
+    public void FormateursCours(Cours cours) {
+        List<Formateur> lcf = ((CoursSpecial) model).FormateursCours(cours);
+        if (lcf == null || lcf.isEmpty()) {
+            view.affMsg("Aucun formateur trouvé");
+        } else {
+            view.affList(lcf);
+        }
     }
 
-    public void SessionsEntreDate (Cours cours){
-        List<SessionCours> lcs = ((CoursSpecial)model).SessionsEntreDate(cours);
-        if(lcs==null || lcs.isEmpty()) view.affMsg("aucune sessions trouvée");
-        else view.affList(lcs);
+    public void SessionsEntreDate(Cours cours) {
+        List<SessionCours> lcs = ((CoursSpecial) model).SessionsEntreDate(cours);
+        if (lcs == null || lcs.isEmpty()) {
+            view.affMsg("Aucune session trouvée");
+        } else {
+            view.affList(lcs);
+        }
     }
 
-    public void SessionsParLocal (Cours cours){
-        List<SessionCours> lcs = ((CoursSpecial)model).SessionsParLocal(cours);
-        if(lcs==null || lcs.isEmpty()) view.affMsg("aucune sessions trouvée");
-        else view.affList(lcs);
-
-
+    public void SessionsParLocal(Cours cours) {
+        List<SessionCours> lcs = ((CoursSpecial) model).SessionsParLocal(cours);
+        if (lcs == null || lcs.isEmpty()) {
+            view.affMsg("Aucune session trouvée");
+        } else {
+            view.affList(lcs);
+        }
     }
-
-
-
-
 }

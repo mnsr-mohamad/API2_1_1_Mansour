@@ -22,4 +22,5 @@ public interface FormateurViewInterface {
     public boolean repet(List<Formateur> formateur);
 
     public int nbreheures();
+
 }

@@ -113,8 +113,7 @@ public class LocalViewConsole implements LocalViewInterface {
         String descritpion = modifyIfNotBlank("description", local.getDescription());
         try{
             presenter.update(new Local(local.getId_Local(), sigle, places, descritpion));
-            ll = presenter.getAll();//rafraichissement
-            affListe(ll);
+            ll = presenter.getAll();
         }
         catch (Exception e) {
             System.out.println("Erreur lors de l'ajout" + e.getMessage());
