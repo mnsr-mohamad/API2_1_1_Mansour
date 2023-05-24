@@ -81,6 +81,8 @@ public class LocalViewConsole implements LocalViewInterface {
     }
 
     private void retirer() {
+        List<Local> c = presenter.getAll();
+        affList(c);
         int nl = choixElt(ll);
         Local local = ll.get(nl - 1);
         presenter.removeLocal(local);
@@ -106,6 +108,8 @@ public class LocalViewConsole implements LocalViewInterface {
     }
 
     private void modifier() {
+        List<Local> c = presenter.getAll();
+        affList(c);
         int nl = choixElt(ll);
         Local local = ll.get(nl - 1);
         String sigle = modifyIfNotBlank("sigle", local.getSigle());
@@ -146,6 +150,8 @@ public class LocalViewConsole implements LocalViewInterface {
                     presenter.insert_local();
                     break;
                 case 2:
+                    List<Local> c = presenter.getAll();
+                    affList(c);
                     int choix = choixElt(ll);
                     Local lo = ll.get(choix - 1);
                     System.out.println("Vous avez choisi le local " + lo);

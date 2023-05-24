@@ -79,6 +79,8 @@ public class CoursViewConsole implements CoursViewInterface {
     }
 
     private void retirer() {
+        List<Cours> c = presenter.getAll();
+        affList(c);
         int nl = choixElt(lc);
         Cours cours = lc.get(nl - 1);
         presenter.remove(cours);
@@ -100,6 +102,8 @@ public class CoursViewConsole implements CoursViewInterface {
     }
 
     private void modifier() {
+        List<Cours> c = presenter.getAll();
+        affList(c);
         int nl = choixElt(lc);
         Cours cours = lc.get(nl - 1);
         String matiere = modifyIfNotBlank("matiere", cours.getMatiere());
@@ -129,31 +133,34 @@ public class CoursViewConsole implements CoursViewInterface {
     }
 
     public void special() {
-        int choix = choixElt(lc);
-        Cours cr = lc.get(choix - 1);
-        System.out.println("Vous avez choisi le cours " + cr);
-        do {
-            int ch = choixListe(Arrays.asList("Formateurs par cours", "Sessions par local", "Sessions entre 2 dates", "menu principal"));
 
-            switch (ch) {
-                case 1:
-                    presenter.FormateursCours(cr);
-                    break;
-                case 2:
-                    presenter.SessionsParLocal(cr);
-                    break;
-                case 3:
-                    presenter.SessionsEntreDate(cr);
-                    break;
-                case 4:
-                    return;
-                default:
-                    System.out.println("choix invalide recommencez ");
-            }
-        } while (true);
+            System.out.println("Choisissez un cours : ");
+            List<Cours> c = presenter.getAll();
+            affList(c);
+            int choix = choixElt(lc);
+            Cours cr = lc.get(choix - 1);
+            System.out.println("Vous avez choisi le cours " + cr);
 
+            do {
+                int ch = choixListe(Arrays.asList("Formateurs par cours", "Afficher toutes les sessions du cours avec le local", "Afficher toutes les sessions du cours avec le local comprise entre 2 dates ", "Menu principal"));
 
-    }
+                switch (ch) {
+                    case 1:
+                        presenter.FormateursCours(cr);
+                        break;
+                    case 2:
+                        presenter.SessionsParLocal(cr);
+                        break;
+                    case 3:
+                        presenter.SessionsEntreDate(cr);
+                        break;
+                    case 4:
+                        return;
+                    default:
+                        System.out.println("Choix invalide, recommencez.");
+                }
+            } while (true);
+        }
 
 
 }

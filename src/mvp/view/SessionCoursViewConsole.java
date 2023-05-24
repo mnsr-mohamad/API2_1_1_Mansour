@@ -77,6 +77,8 @@ public class SessionCoursViewConsole implements SessionCoursViewInterface {
 
 
     private void retirer() {
+        List<SessionCours> c = presenter.getAll();
+        affList(c);
         int nl = choixElt(ls);
         SessionCours sessionCours = ls.get(nl - 1);
         presenter.remove(sessionCours);
@@ -103,6 +105,8 @@ public class SessionCoursViewConsole implements SessionCoursViewInterface {
     }
 
     private void modifier() {
+        List<SessionCours> c = presenter.getAll();
+        affList(c);
         int nl = choixElt(ls);
         SessionCours sessioncours = ls.get(nl - 1);
         LocalDate dateDebut = LocalDate.parse(modifyIfNotBlank("date de debut", "" + sessioncours.getDateDebut()));
@@ -131,7 +135,8 @@ public class SessionCoursViewConsole implements SessionCoursViewInterface {
     }
 
     public void specialSGBD() {
-
+        List<SessionCours> c = presenter.getAll();
+        affList(c);
         int choix = choixElt(ls);
         SessionCours sce = ls.get(choix - 1);
         System.out.println("Vous avez choisi la sessions :  " + sce);

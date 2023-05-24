@@ -78,6 +78,7 @@ public class SessionCoursPresenter {
         if (ok) view.affMsg("Session du cours effacée");
         else view.affMsg("Session du cours non effacée");
         List<SessionCours> sessionCours2 = model.getAll();
+        view.setListDatas(sessionCours2);
 
     }
 

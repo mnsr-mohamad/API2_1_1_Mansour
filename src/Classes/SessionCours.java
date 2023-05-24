@@ -58,13 +58,13 @@ public class SessionCours {
     public SessionCours(int id_SessionCours, LocalDate dateDebut, LocalDate dateFin, int nbreInscrits, Cours cours, Local local) throws Exception {
         LocalDate currentDate = LocalDate.now();
 
-       /* if (dateDebut.isBefore(currentDate)) {
+      /* if (dateDebut.isBefore(currentDate)) {
             throw new Exception("La date de début ne peut pas être antérieure à la date d'aujourd'hui.");
         }
 
-        /*if (dateFin.isBefore(dateDebut)) {
+        if (dateFin.isBefore(dateDebut)) {
             throw new Exception("La date de fin ne peut pas être antérieure à la date de début.");
-        }
+        }*/
 
         if (nbreInscrits < 0) {
             throw new Exception("Le nombre d'inscrits ne peut pas être négatif.");
@@ -76,7 +76,7 @@ public class SessionCours {
 
         if (local == null) {
             throw new Exception("Le local ne peut pas être null.");
-        }*/
+        }
 
         this.id_SessionCours = id_SessionCours;
         this.dateDebut = dateDebut;

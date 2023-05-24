@@ -63,6 +63,7 @@ public class CoursPresenter {
             view.affMsg("Cours non effacé");
         }
         List<Cours> cours2 = model.getAll();
+        view.setListDatas(cours2);
     }
 
     public List<Cours> getAll() {

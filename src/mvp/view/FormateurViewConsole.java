@@ -107,6 +107,8 @@ public class FormateurViewConsole implements FormateurViewInterface {
     }
 
     private void retirer() {
+        List<Formateur> c = presenter.getAll();
+        affList(c);
         int nl = choixElt(lf);
         Formateur formateur = lf.get(nl - 1);
         presenter.remove(formateur);
@@ -129,6 +131,8 @@ public class FormateurViewConsole implements FormateurViewInterface {
     }
 
     private void modifier() {
+        List<Formateur> c = presenter.getAll();
+        affList(c);
         int nl = choixElt(lf);
         Formateur formateur = lf.get(nl - 1);
         String mail = modifyIfNotBlank("mail", formateur.getMail());
