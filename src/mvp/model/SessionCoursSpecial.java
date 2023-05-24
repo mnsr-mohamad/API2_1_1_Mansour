@@ -14,4 +14,8 @@ public interface SessionCoursSpecial {
     void supp_infos(SessionCours sess);
 
     void supp_sess(SessionCours sess);
+
+    public int form_heures(SessionCours sess);
+
+    public boolean verif_heures(SessionCours sess,int heures);
 }

@@ -213,7 +213,12 @@ public class GestCours {
                     local = new Local();
                     local.setSigle(sigle);
                 }
-                SessionCours sr = new SessionCours(id_sess, dateDebut, dateFin, nbreInscrits, cours, local);
+                SessionCours sr = null;
+                try {
+                    sr = new SessionCours(id_sess, dateDebut, dateFin, nbreInscrits, cours, local);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 System.out.println(sr);
             }
             if (!trouve) System.out.println("aucune sessions trouvée");
@@ -238,7 +243,12 @@ public class GestCours {
                 LocalDate fin = rs.getDate("dateFin").toLocalDate();
                 int nbreInscrits = rs.getInt("nbreInscrits");
                 Local local = new Local(rs.getString("sigle"));
-                SessionCours sr = new SessionCours(id_sess, debut, fin, nbreInscrits, cours, local);
+                SessionCours sr = null;
+                try {
+                    sr = new SessionCours(id_sess, debut, fin, nbreInscrits, cours, local);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 System.out.println(sr);
             }
             if (!trouve) {

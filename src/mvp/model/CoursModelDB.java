@@ -15,7 +15,7 @@ import java.util.Scanner;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class CoursModelDB implements DAOCours,CoursSpecial {
+public class CoursModelDB implements DAO<Cours>,CoursSpecial {
     private Connection dbConnect;
     private static final Logger logger = LogManager.getLogger(CoursModelDB.class);
 
@@ -30,7 +30,7 @@ public class CoursModelDB implements DAOCours,CoursSpecial {
     }
 
     @Override
-    public Cours addCours(Cours cours) {
+    public Cours add(Cours cours) {
         String query1 = "insert into APICOURS (matière,heures) values(?,?)";
         String query2 = "select id_cours from APICOURS where matière= ? and  heures=? ";
         try (PreparedStatement pstm1 = dbConnect.prepareStatement(query1);
@@ -64,7 +64,7 @@ public class CoursModelDB implements DAOCours,CoursSpecial {
     }
 
     @Override
-    public boolean removeCours(Cours cours) {
+    public boolean remove(Cours cours) {
         String query = "delete from APICOURS where id_cours = ?";
         try (PreparedStatement pstm = dbConnect.prepareStatement(query)) {
             pstm.setInt(1, cours.getId_Cours());
@@ -80,7 +80,7 @@ public class CoursModelDB implements DAOCours,CoursSpecial {
     }
 
     @Override
-    public List<Cours> getCours() {
+    public List<Cours> getAll() {
         List<Cours> lc = new ArrayList<>();
         String query = "select * from APICOURS";
         try (Statement stm = dbConnect.createStatement()) {
@@ -105,14 +105,14 @@ public class CoursModelDB implements DAOCours,CoursSpecial {
 
 
     @Override
-    public Cours updateCours(Cours cours) {
+    public Cours update(Cours cours) {
         String query = "update APICOURS set matière =?,heures=? where id_cours = ?";
         try (PreparedStatement pstm = dbConnect.prepareStatement(query)) {
             pstm.setString(1, cours.getMatiere());
             pstm.setInt(2, cours.getHeures());
             pstm.setInt(3, cours.getId_Cours());
             int n = pstm.executeUpdate();
-            if (n != 0) return readCours(cours.getId_Cours());
+            if (n != 0) return read(cours.getId_Cours());
             else return null;
 
         } catch (SQLException e) {
@@ -124,7 +124,7 @@ public class CoursModelDB implements DAOCours,CoursSpecial {
 
 
     @Override
-    public Cours readCours(int id_cours) {
+    public Cours read(int id_cours) {
         String query = "select * from APICOURS where id_cours = ?";
         try (PreparedStatement pstm = dbConnect.prepareStatement(query)) {
             pstm.setInt(1, id_cours);
@@ -214,7 +214,12 @@ public class CoursModelDB implements DAOCours,CoursSpecial {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                SessionCours session = new SessionCours(idSessionCours, dateDebut, dateFin, nbreInscrits, cours, local);
+                SessionCours session = null;
+                try {
+                    session = new SessionCours(idSessionCours, dateDebut, dateFin, nbreInscrits, cours, local);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 sessions.add(session);
             }
         } catch (SQLException e) {
@@ -264,7 +269,12 @@ public class CoursModelDB implements DAOCours,CoursSpecial {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                SessionCours session = new SessionCours(idSessionCours, sessionDateDebut, sessionDateFin, nbreInscrits, cours, local);
+                SessionCours session = null;
+                try {
+                    session = new SessionCours(idSessionCours, sessionDateDebut, sessionDateFin, nbreInscrits, cours, local);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 sessions.add(session);
             }
         } catch (SQLException e) {

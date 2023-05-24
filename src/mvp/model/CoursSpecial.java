@@ -13,4 +13,5 @@ public interface CoursSpecial {
     public List<SessionCours> SessionsParLocal(Cours cours);
 
     public List<SessionCours> SessionsEntreDate(Cours cours);
+
 }

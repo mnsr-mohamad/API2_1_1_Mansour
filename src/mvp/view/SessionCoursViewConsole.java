@@ -49,7 +49,7 @@ public class SessionCoursViewConsole implements SessionCoursViewInterface {
 
     public void menu() {
         do {
-            int ch = choixListe(Arrays.asList("ajout", "retrait", "modifier", "rechercher", "fin"));
+            int ch = choixListe(Arrays.asList("ajout", "retrait", "modifier", "recherche", "specialSGBD", "fin"));
 
             switch (ch) {
                 case 1:
@@ -65,6 +65,9 @@ public class SessionCoursViewConsole implements SessionCoursViewInterface {
                     rechercher();
                     break;
                 case 5:
+                    specialSGBD();
+                    break;
+                case 6:
                     return;
                 default:
                     System.out.println("choix invalide recommencez ");
@@ -76,7 +79,7 @@ public class SessionCoursViewConsole implements SessionCoursViewInterface {
     private void retirer() {
         int nl = choixElt(ls);
         SessionCours sessionCours = ls.get(nl - 1);
-        presenter.removeSessionCours(sessionCours);
+        presenter.remove(sessionCours);
 
     }
 
@@ -92,8 +95,11 @@ public class SessionCoursViewConsole implements SessionCoursViewInterface {
         System.out.print("Nombre d'inscrits : ");
         int nbInscrits = sc.nextInt();
         sc.nextLine();
-
-        presenter.addSessionCours(new SessionCours(0, dateDebut, dateFin, nbInscrits));
+        try {
+            presenter.add(new SessionCours(0, dateDebut, dateFin, nbInscrits));
+        } catch (Exception e) {
+            System.out.println("Erreur " + e.getMessage());
+        }
     }
 
     private void modifier() {
@@ -104,7 +110,7 @@ public class SessionCoursViewConsole implements SessionCoursViewInterface {
         int nbreinscrits = Integer.parseInt(modifyIfNotBlank("nombre d'inscrits", "" + sessioncours.getNbreInscrits()));
 
         presenter.update(new SessionCours(sessioncours.getId_SessionCours(), dateDebut, dateFin, nbreinscrits));
-        ls = presenter.getAll();//rafraichissement
+        ls = presenter.getAll();
         affListe(ls);
 
     }
@@ -121,6 +127,32 @@ public class SessionCoursViewConsole implements SessionCoursViewInterface {
         System.out.println("id de la session : ");
         int id_sessioncours = sc.nextInt();
         presenter.search(id_sessioncours);
+
+    }
+
+    public void specialSGBD() {
+
+        int choix = choixElt(ls);
+        SessionCours sce = ls.get(choix - 1);
+        System.out.println("Vous avez choisi la sessions :  " + sce);
+        do {
+            int ch = choixListe(Arrays.asList("Nombre total d'heures des formateurs pour cette session", "Verifier si un nombre d'heures peut être ajouter a une session", "menu principal"));
+
+            switch (ch) {
+                case 1:
+                    presenter.form_heures(sce);
+                    break;
+                case 2:
+                    System.out.println("Entrez le nombre d'heures de cours que vous voulez ajouter à cette session : ");
+                    int heures = sc.nextInt();
+                    presenter.verif_heures(sce, heures);
+                    break;
+                case 3:
+                    return;
+                default:
+                    System.out.println("choix invalide recommencez ");
+            }
+        } while (true);
 
 
     }

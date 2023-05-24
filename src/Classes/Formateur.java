@@ -34,12 +34,22 @@ public class Formateur {
      * @param prenom       prenom du formateur
      */
     public Formateur(int id_Formateur, String mail, String nom, String prenom) throws Exception {
-        if(mail.trim().equals("") || nom.trim().equals("") || prenom.trim().equals(""))throw new Exception(" Il y'a une ou plusieurs entrée invalide  ");
+        if(mail.trim().equals("")) {
+            throw new Exception("Le champ 'mail' est vide.");
+        }
+        if(nom.trim().equals("")) {
+            throw new Exception("Le champ 'nom' est vide.");
+        }
+        if(prenom.trim().equals("")) {
+            throw new Exception("Le champ 'prenom' est vide.");
+        }
+
         this.id_Formateur = id_Formateur;
         this.mail = mail;
         this.nom = nom;
         this.prenom = prenom;
     }
+
 
     /**
      * getter id_Formateur

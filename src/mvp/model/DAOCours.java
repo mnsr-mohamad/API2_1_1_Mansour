@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface DAOCours {
 
-    Cours addCours (Cours cours);
+    /*Cours addCours (Cours cours);
 
     boolean removeCours(Cours cours);
 
@@ -14,5 +14,5 @@ public interface DAOCours {
 
     Cours updateCours(Cours cours);
 
-    Cours readCours(int id_Cours);
+    Cours readCours(int id_Cours);*/
 }

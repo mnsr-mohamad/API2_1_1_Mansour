@@ -2,6 +2,7 @@ package mvp.model;
 
 import Classes.Local;
 import myconnections.DBConnection;
+import oracle.jdbc.internal.OracleTypes;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class LocalModelDB implements DAOLocal{
+public class LocalModelDB implements DAO<Local>, LocalSpecial {
 
     private Connection dbConnect;
     private static final Logger logger = LogManager.getLogger(LocalModelDB.class);
@@ -26,7 +27,7 @@ public class LocalModelDB implements DAOLocal{
     }
 
     @Override
-    public Local addLocal(Local local) {
+    public Local add(Local local) {
         String query1 = "insert into APILOCAL (sigle,places,descriptions) values(?,?,?)";
         String query2 = "select id_local from APILOCAL where sigle= ? and  places=? and descriptions=? ";
         try (PreparedStatement pstm1 = dbConnect.prepareStatement(query1);
@@ -62,7 +63,7 @@ public class LocalModelDB implements DAOLocal{
     }
 
     @Override
-    public boolean removeLocal(Local local) {
+    public boolean remove(Local local) {
         String query = "delete from APILOCAL where id_local = ?";
         try (PreparedStatement pstm = dbConnect.prepareStatement(query)) {
             pstm.setInt(1, local.getId_Local());
@@ -78,7 +79,7 @@ public class LocalModelDB implements DAOLocal{
     }
 
     @Override
-    public List<Local> getLocal() {
+    public List<Local> getAll() {
         List<Local> ll = new ArrayList<>();
         String query = "select * from APILOCAL";
         try (Statement stm = dbConnect.createStatement()) {
@@ -105,7 +106,7 @@ public class LocalModelDB implements DAOLocal{
     }
 
     @Override
-    public Local updateLocal(Local local) {
+    public Local update(Local local) {
         String query = "update APILOCAL set  sigle=?, places=?, descriptions=? where id_local = ?";
         try (PreparedStatement pstm = dbConnect.prepareStatement(query)) {
             pstm.setString(1, local.getSigle());
@@ -113,7 +114,7 @@ public class LocalModelDB implements DAOLocal{
             pstm.setString(3, local.getDescription());
             pstm.setInt(4, local.getId_Local());
             int n = pstm.executeUpdate();
-            if (n != 0) return readLocal(local.getId_Local());
+            if (n != 0) return read(local.getId_Local());
             else return null;
 
         } catch (SQLException e) {
@@ -124,7 +125,7 @@ public class LocalModelDB implements DAOLocal{
     }
 
     @Override
-    public Local readLocal(int id_Local) {
+    public Local read(int id_Local) {
         String query = "select * from APILOCAL where id_local = ?";
         try (PreparedStatement pstm = dbConnect.prepareStatement(query)) {
             pstm.setInt(1, id_Local);
@@ -152,44 +153,71 @@ public class LocalModelDB implements DAOLocal{
         }
 
 
-
     }
 
 
-   /* @Override
-    public List<Local> insertion_local(Local local) {
-        Connection dbConnect = DBConnection.getConnection();
-        if (dbConnect == null) {
-            System.exit(0);
-        }
-        System.out.println("Connexion établie");
+    @Override
+    public int insert_local() {
+        int generatedId = 0;
 
-        try (CallableStatement cs = dbConnect.prepareCall("{CALL insert_local(?,?,?,?)}")) {
+        try (CallableStatement cs = dbConnect.prepareCall("{ call insert_local(?, ?, ?, ?) }")) {
             Scanner sc = new Scanner(System.in);
-            System.out.print("Sigle : ");
+
+            System.out.print("Sigle: ");
             String sigle = sc.nextLine();
-            System.out.print("Places : ");
+
+            System.out.print("Places: ");
             int places = sc.nextInt();
-            sc.skip("\n");
-            System.out.print("Description : ");
+
+            sc.nextLine();
+
+            System.out.print("Description: ");
             String description = sc.nextLine();
 
             cs.setString(1, sigle);
             cs.setInt(2, places);
             cs.setString(3, description);
-
-
+            cs.registerOutParameter(4, OracleTypes.NUMBER);
             cs.executeUpdate();
 
-            int id_local = cs.getInt(4);
-            System.out.println("L'id du local ajouté est " + id_local);
+            generatedId = cs.getInt(4);
+            return generatedId;
         } catch (SQLException e) {
-            System.out.println("Erreur SQL : " + e);
+            System.out.println("erreur SQL = " + e);
+            return 0;
         } catch (Exception e) {
-            System.out.println("Exception : " + e);
+            System.out.println("Exception " + e);
+            return 0;
         }
 
-        DBConnection.closeConnection();
 
-    }*/
+    }
+
+    @Override
+    public boolean verif_local(Local lo) {
+        try (
+                CallableStatement cs = dbConnect.prepareCall("{ ? = call verif_local(?, ?, ?) }")) {
+            cs.registerOutParameter(1, OracleTypes.PLSQL_BOOLEAN);
+            cs.setInt(2, lo.getId_Local());
+
+
+            Scanner scanner = new Scanner(System.in);
+            System.out.print("Entrez la date de début (DD-MM-YYYY) : ");
+            String v_date_debut = scanner.nextLine();
+            System.out.print("Entrez la date de fin (DD-MM-YYYY) : ");
+            String v_date_fin = scanner.nextLine();
+
+            cs.setString(3, v_date_debut);
+            cs.setString(4, v_date_fin);
+            cs.execute();
+
+            boolean result = cs.getBoolean(1);
+
+            return result;
+        } catch (SQLException e) {
+            System.out.println("Erreur SQL: " + e.getMessage());
+            return false;
+        }
+    }
+
 }

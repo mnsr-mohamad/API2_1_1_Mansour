@@ -2,6 +2,7 @@ package mvp.model;
 
 import Classes.*;
 import myconnections.DBConnection;
+import oracle.jdbc.OracleTypes;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -10,7 +11,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SessionCoursModelDB implements DAOSessionCours,SessionCoursSpecial{
+public class SessionCoursModelDB implements DAO<SessionCours>,SessionCoursSpecial{
 
     private Connection dbConnect;
     private static final Logger logger = LogManager.getLogger(SessionCoursModelDB.class);
@@ -28,7 +29,7 @@ public class SessionCoursModelDB implements DAOSessionCours,SessionCoursSpecial{
 
 
     @Override
-    public SessionCours addSessionCours(SessionCours sessionCours) {
+    public SessionCours add(SessionCours sessionCours) {
         String query1 = "INSERT INTO APISESSIONCOURS (dateDebut, dateFin, nbreInscrits, id_Local, id_Cours) VALUES (?, ?, ?, ?, ?)";
         String query2 = "SELECT max(id_SessionCours) FROM APISESSIONCOURS WHERE id_Local = ? AND id_Cours = ?";
         try (PreparedStatement pstm1 = dbConnect.prepareStatement(query1);
@@ -66,7 +67,7 @@ public class SessionCoursModelDB implements DAOSessionCours,SessionCoursSpecial{
     }
 
     @Override
-    public boolean removeSessionCours(SessionCours sessionCours) {
+    public boolean remove(SessionCours sessionCours) {
         String query = "delete from APISESSIONCOURS where id_sessioncours = ?";
         try (PreparedStatement pstm = dbConnect.prepareStatement(query)) {
             pstm.setInt(1, sessionCours.getId_SessionCours());
@@ -81,7 +82,7 @@ public class SessionCoursModelDB implements DAOSessionCours,SessionCoursSpecial{
     }
 
     @Override
-    public List<SessionCours> getSessionCours() {
+    public List<SessionCours> getAll() {
         List<SessionCours> lsc = new ArrayList<>();
         String query = "select * from APISESSIONCOURS";
         try (Statement stm = dbConnect.createStatement()) {
@@ -95,7 +96,12 @@ public class SessionCoursModelDB implements DAOSessionCours,SessionCoursSpecial{
                 int id_cours = rs.getInt(6);
                 Local local = getLocalById(id_local);
                 Cours cours = getCoursById(id_cours);
-                SessionCours sc = new SessionCours(id_sessioncours, dateDebut, dateFin, nbreInscrits, cours, local);
+                SessionCours sc = null;
+                try {
+                    sc = new SessionCours(id_sessioncours, dateDebut, dateFin, nbreInscrits, cours, local);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 lsc.add(sc);
             }
             return lsc;
@@ -159,7 +165,7 @@ public class SessionCoursModelDB implements DAOSessionCours,SessionCoursSpecial{
         }
     }
     @Override
-    public SessionCours updateSessionCours(SessionCours sessionCours) {
+    public SessionCours update(SessionCours sessionCours) {
         String query = "update APISESSIONCOURS set dateDebut=?, dateFin=?, nbreinscrits = ? where id_sessioncours = ?";
         try (PreparedStatement pstm = dbConnect.prepareStatement(query)) {
             pstm.setDate(1, Date.valueOf(sessionCours.getDateDebut()));
@@ -167,7 +173,7 @@ public class SessionCoursModelDB implements DAOSessionCours,SessionCoursSpecial{
             pstm.setInt(3, sessionCours.getNbreInscrits());
             pstm.setInt(4, sessionCours.getId_SessionCours());
             int n = pstm.executeUpdate();
-            if (n != 0) return readSessionCours(sessionCours.getId_SessionCours());
+            if (n != 0) return read(sessionCours.getId_SessionCours());
             else return null;
 
         } catch (SQLException e) {
@@ -178,7 +184,7 @@ public class SessionCoursModelDB implements DAOSessionCours,SessionCoursSpecial{
     }
 
     @Override
-    public SessionCours readSessionCours(int id_sessioncours) {
+    public SessionCours read(int id_sessioncours) {
         String query = "SELECT * FROM APISESSIONCOURS WHERE id_sessioncours = ?";
         try (PreparedStatement pstm = dbConnect.prepareStatement(query)) {
             pstm.setInt(1, id_sessioncours);
@@ -193,7 +199,12 @@ public class SessionCoursModelDB implements DAOSessionCours,SessionCoursSpecial{
                 Local local = getLocalById(idLocal);
                 Cours cours = getCoursById(idCours);
 
-                SessionCours sc = new SessionCours(id_sessioncours, dateDebut, dateFin, nbreInscrits, cours, local);
+                SessionCours sc = null;
+                try {
+                    sc = new SessionCours(id_sessioncours, dateDebut, dateFin, nbreInscrits, cours, local);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
                 return sc;
             } else {
@@ -236,6 +247,8 @@ public class SessionCoursModelDB implements DAOSessionCours,SessionCoursSpecial{
             return false;
         }
     }
+
+
 
     @Override
     public int getTotalHeuresFormateurs(SessionCours sess) {
@@ -283,6 +296,45 @@ public class SessionCoursModelDB implements DAOSessionCours,SessionCoursSpecial{
         } catch (SQLException e) {
             logger.error("Erreur SQL lors de la suppression des données : " + e);
         }
+
+
+    }
+
+    @Override
+    public int form_heures(SessionCours sess) {
+        try (CallableStatement cs = dbConnect.prepareCall("{ ? = call form_heures(?) }")) {
+            cs.registerOutParameter(1, OracleTypes.NUMBER);
+            cs.setInt(2, sess.getId_SessionCours());
+            cs.execute();
+
+            int total_heures = cs.getInt(1);
+            return total_heures;
+        } catch (SQLException e) {
+            System.out.println("erreur SQL = " + e);
+            return 0;
+        } catch (Exception e) {
+            System.out.println("Exception " + e);
+            return 0;
+        }
+    }
+
+    @Override
+    public boolean verif_heures(SessionCours sess, int heures) {
+        boolean heuresSuffisantes = false;
+
+        try (
+             CallableStatement cs = dbConnect.prepareCall("{ ? = call verif_heures(?, ?) }")) {
+            cs.registerOutParameter(1, OracleTypes.PLSQL_BOOLEAN);
+            cs.setInt(2, sess.getId_SessionCours());
+            cs.setInt(3, heures);
+            cs.executeQuery();
+
+            heuresSuffisantes = cs.getBoolean(1);
+        } catch (SQLException e) {
+            System.out.println("Erreur SQL: " + e.getMessage());
+        }
+
+        return heuresSuffisantes;
 
 
     }

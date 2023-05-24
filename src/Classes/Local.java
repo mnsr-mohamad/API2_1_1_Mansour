@@ -10,7 +10,7 @@ import java.util.List;
  * @version 1.0
  * @see SessionCours
  */
-public class Local  {
+public class Local {
     /**
      * identifiant du Local
      */
@@ -42,12 +42,20 @@ public class Local  {
      * @param description description du local
      */
     public Local(int id_Local, String sigle, int places, String description) throws Exception {
-        if(sigle.trim().equals(" ")||places < 0 || description.trim().equals("")) throw new Exception(" Une ou plusieures informations sont invalides");
+        if (sigle.trim().equals("")) {
+            throw new Exception("Le champ 'sigle' est vide.");
+        }
+        if (places < 0) {
+            throw new Exception("Le nombre de places ne peut être négatif.");
+        }
+        /*if (description.trim().equals("")) {
+            throw new Exception("Le champ 'description' est vide.");
+        }*/
+
         this.id_Local = id_Local;
         this.sigle = sigle;
         this.places = places;
         this.description = description;
-
     }
 
     public Local(String sigle) {
@@ -169,7 +177,6 @@ public class Local  {
                 ", sigle='" + sigle + '\'' +
                 ", places=" + places +
                 ", description='" + description + '\'' +
-                ", session=" + session +
                 '}';
     }
 }

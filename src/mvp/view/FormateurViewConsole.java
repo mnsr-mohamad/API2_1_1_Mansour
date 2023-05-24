@@ -1,5 +1,6 @@
 package mvp.view;
 
+import Classes.Cours;
 import Classes.Formateur;
 import Classes.SessionCours;
 import mvp.presenter.FormateurPresenter;
@@ -79,7 +80,7 @@ public class FormateurViewConsole implements FormateurViewInterface {
 
     public void menu() {
         do {
-            int ch = choixListe(Arrays.asList("ajout", "retrait", "modifier", "rechercher", "fin"));
+            int ch = choixListe(Arrays.asList("ajout", "retrait", "modifier", "recherche", "specialSGBD", "fin"));
 
             switch (ch) {
                 case 1:
@@ -95,6 +96,9 @@ public class FormateurViewConsole implements FormateurViewInterface {
                     rechercher();
                     break;
                 case 5:
+                    specialSGBD();
+                    break;
+                case 6:
                     return;
                 default:
                     System.out.println("choix invalide recommencez ");
@@ -153,5 +157,23 @@ public class FormateurViewConsole implements FormateurViewInterface {
         System.out.println("id du formateur : ");
         int id_formateur = sc.nextInt();
         presenter.search(id_formateur);
+    }
+
+    public void specialSGBD() {
+        do {
+            int ch = choixListe(Arrays.asList("Afficher tout les formateurs encodés", "menu principal"));
+
+            switch (ch) {
+                case 1:
+                    presenter.form_encode();
+                    break;
+                case 2:
+                    return;
+                default:
+                    System.out.println("choix invalide recommencez ");
+            }
+        } while (true);
+
+
     }
 }

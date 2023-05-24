@@ -52,9 +52,8 @@ public class CoursViewConsole implements CoursViewInterface {
 
     public void menu() {
         do {
-            int ch = choixListe(Arrays.asList("ajout", "retrait", "modifier", "recherche", "special", "fin"));
-
-            sc.skip("\n");
+            List<String> loptions = Arrays.asList("ajout", "retrait", "modifier", "recherche", "special", "fin");
+            int ch = Utilitaire.choixListe(loptions);
             switch (ch) {
                 case 1:
                     ajouter();
@@ -69,8 +68,8 @@ public class CoursViewConsole implements CoursViewInterface {
                     rechercher();
                     break;
                 case 5:
-
                     special();
+                    break;
                 case 6:
                     return;
                 default:
@@ -82,17 +81,18 @@ public class CoursViewConsole implements CoursViewInterface {
     private void retirer() {
         int nl = choixElt(lc);
         Cours cours = lc.get(nl - 1);
-        presenter.removeCours(cours);
+        presenter.remove(cours);
 
     }
 
     private void ajouter() {
         System.out.print("matière : ");
         String matiere = sc.nextLine();
+
         System.out.print("nombres d'heures : ");
         int heures = sc.nextInt();
         try {
-            presenter.addCours(new Cours(0, matiere, heures));
+            presenter.add(new Cours(0, matiere, heures));
         } catch (Exception e) {
             System.out.println("Erreur " + e.getMessage());
         }

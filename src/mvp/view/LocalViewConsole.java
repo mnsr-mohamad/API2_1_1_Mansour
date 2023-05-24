@@ -2,6 +2,7 @@ package mvp.view;
 
 import Classes.Cours;
 import Classes.Local;
+import Classes.SessionCours;
 import mvp.presenter.LocalPresenter;
 
 import java.util.Arrays;
@@ -53,7 +54,7 @@ public class LocalViewConsole implements LocalViewInterface {
 
     public void menu() {
         do {
-            int ch = choixListe(Arrays.asList("ajout", "retrait", "modifier", "rechercher", "fin"));
+            int ch = choixListe(Arrays.asList("ajout", "retrait", "modifier", "recherche", "specialSGBD", "fin"));
 
             switch (ch) {
                 case 1:
@@ -69,6 +70,9 @@ public class LocalViewConsole implements LocalViewInterface {
                     rechercher();
                     break;
                 case 5:
+                    specialSGBD();
+                    break;
+                case 6:
                     return;
                 default:
                     System.out.println("choix invalide recommencez ");
@@ -92,7 +96,7 @@ public class LocalViewConsole implements LocalViewInterface {
         System.out.print("description : ");
         String description = sc.nextLine();
         try {
-            presenter.addLocal(new Local(0, sigle, places, description));
+            presenter.add(new Local(0, sigle, places, description));
 
         } catch (Exception e) {
             System.out.println("Erreur lors de l'ajout" + e.getMessage());
@@ -133,5 +137,28 @@ public class LocalViewConsole implements LocalViewInterface {
         presenter.search(id_local);
     }
 
+    public void specialSGBD() {
+
+        do {
+            int ch = choixListe(Arrays.asList("Inserer un local et recuperer son ID","Vérifier un local", "menu principal"));
+
+            switch (ch) {
+                case 1:
+                    presenter.insert_local();
+                    break;
+                case 2:
+                    int choix = choixElt(ll);
+                    Local lo = ll.get(choix - 1);
+                    System.out.println("Vous avez choisi le local " + lo);
+                    presenter.verif_local(lo);
+                case 3 :
+                    return;
+                default:
+                    System.out.println("choix invalide recommencez ");
+            }
+        } while (true);
+
+
+    }
 
 }
