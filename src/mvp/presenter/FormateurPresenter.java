@@ -8,23 +8,26 @@ import mvp.view.FormateurViewInterface;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Comparator;
 import java.util.List;
 
 public class FormateurPresenter {
 
     private DAO<Formateur> model;
     private FormateurViewInterface view;
+    protected Comparator<Formateur> cmp;
     private static final Logger logger = LogManager.getLogger(FormateurPresenter.class);
 
-    public FormateurPresenter(DAO<Formateur> model, FormateurViewInterface view) {
+    public FormateurPresenter(DAO<Formateur> model, FormateurViewInterface view, Comparator<Formateur> cmp) {
         this.model = model;
         this.view = view;
         this.view.setPresenter(this);
+        this.cmp=cmp;
     }
 
     public void start() {
         List<Formateur> formateur = model.getAll();
-        view.setListDatas(formateur);
+        view.setListDatas(formateur,cmp);
     }
 
     public void update(Formateur formateur) {
@@ -44,7 +47,7 @@ public class FormateurPresenter {
             view.affMsg("Erreur de création");
         }
         List<Formateur> formateur2 = model.getAll();
-        view.setListDatas(formateur2);
+        view.setListDatas(formateur2,cmp);
     }
 
     public void remove(Formateur formateur) {
@@ -55,11 +58,14 @@ public class FormateurPresenter {
             view.affMsg("Formateur non effacé");
         }
         List<Formateur> formateur2 = model.getAll();
-        view.setListDatas(formateur2);
+        view.setListDatas(formateur2,cmp);
     }
 
     public List<Formateur> getAll() {
-        return model.getAll();
+        List<Formateur> f = model.getAll();
+        f.sort(cmp);
+
+        return f;
     }
 
     public void search(int id_Formateur) {

@@ -52,6 +52,7 @@ public class SessionCoursPresenter {
     }
 
     public void add(SessionCours sessionCours) {
+        boolean verif;
         Cours cr = coursPresenter.selectionner();
         Local lo = localPresenter.selectionner();
         int nbr = lo.getPlaces();
@@ -59,16 +60,25 @@ public class SessionCoursPresenter {
             sessionCours.setCours(cr);
             sessionCours.setLocal(lo);
             SessionCours sc = model.add(sessionCours);
-            add_infos(sc);
+            verif = add_infos(sc);
 
-            if (sc != null && sessionCours.getNbreInscrits() <= nbr)
+            if (sc != null  && verif == true) {
                 view.affMsg("Création de : " + sc);
-            else
-                view.affMsg("Erreur de création car mauvaises données lors de la session ou le nombre d'inscrits dépasse la capacité du local");
-            List<SessionCours> sessionCours2 = model.getAll();
-            view.setListDatas(sessionCours2);
+            }
+
+            else{
+                if(verif==false){
+                    view.affMsg("Le total des heures des formateurs est soit supérieur ou inférieur à l'heure du cours, la session n'a pas été créée");
+                }
+                else{
+                    view.affMsg("Erreur de création car mauvaises données lors de la session ou le nombre d'inscrits dépasse la capacité du local");
+                    List<SessionCours> sessionCours2 = model.getAll();
+                    view.setListDatas(sessionCours2);
+                }
+
+            }
         } else {
-            System.out.println("Erreur de création car mauvaises données lors de la session ou le nombre d'inscrits dépasse la capacité du local");
+            view.affMsg("Erreur de création, le nombre d'inscrits dépasse la capacité du local choisi");
         }
     }
 
@@ -92,7 +102,8 @@ public class SessionCoursPresenter {
         else view.affMsg(sc.toString());
     }
 
-    public void add_infos(SessionCours sess) {
+    public boolean add_infos(SessionCours sess) {
+        boolean choix = true;
         boolean repet = true;
         int totalHeuresFormateurs = 0;
         int heuresCours = sess.getCours().getHeures();
@@ -113,6 +124,7 @@ public class SessionCoursPresenter {
             }
             repet = formateurPresenter.repet(sess);
 
+
         } while (repet);
 
         System.out.println("Total des heures des formateurs encodées : " + totalHeuresFormateurs);
@@ -120,9 +132,9 @@ public class SessionCoursPresenter {
         if (totalHeuresFormateurs != heuresCours) {
             ((SessionCoursSpecial) model).supp_infos(sess);
             ((SessionCoursSpecial) model).supp_sess(sess);
-            System.out.println("Le total des heures des formateurs est soit supérieur ou inférieur à l'heure du cours, la session n'a pas été créée");
-
+            choix = false;
         }
+        return choix;
     }
 
     public void remove_infos(SessionCours sess) {

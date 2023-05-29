@@ -13,6 +13,7 @@ import mvp.view.*;
 import utilitaires.Utilitaire;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -21,12 +22,14 @@ public class GestCli {
     public static void main(String[] args) {
         DAO<Cours> cm = new CoursModelDB();
         CoursViewInterface cv = new CoursViewConsole();
-        CoursPresenter cp = new CoursPresenter(cm,cv);//création et injection de dépendance
+        CoursPresenter cp = new CoursPresenter(cm,cv,(c1,c2)->c1.getMatiere().compareTo(c2.getMatiere()));//création et injection de dépendance
 
 
         DAO<Formateur> fm = new FormateurModelDB();
         FormateurViewInterface fv = new FormateurViewConsole();
-        FormateurPresenter fp = new FormateurPresenter(fm,fv);//création et injection de dépendance
+        Comparator<Formateur> cmpl=(f1,f2)->f1.getNom().compareTo(f2.getNom());
+        cmpl=cmpl.thenComparing((f1,f2)-> f1.getPrenom().compareTo(f2.getPrenom()));
+        FormateurPresenter fp = new FormateurPresenter(fm,fv,cmpl);//création et injection de dépendance
 
 
         DAO<Local> lo = new LocalModelDB();

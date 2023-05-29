@@ -5,10 +5,7 @@ import Classes.Formateur;
 import Classes.SessionCours;
 import mvp.presenter.FormateurPresenter;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 import static utilitaires.Utilitaire.*;
 
@@ -29,9 +26,10 @@ public class FormateurViewConsole implements FormateurViewInterface {
     }
 
     @Override
-    public void setListDatas(List<Formateur> formateur) {
+    public void setListDatas(List<Formateur> formateur, Comparator<Formateur> cmp) {
 
         this.lf = formateur;
+        this.lf.sort(cmp);
         affListe(lf);
         menu();
     }

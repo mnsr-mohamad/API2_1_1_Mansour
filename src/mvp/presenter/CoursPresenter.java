@@ -9,24 +9,27 @@ import mvp.view.CoursViewInterface;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Comparator;
 import java.util.List;
 
 public class CoursPresenter {
 
     private DAO<Cours> model;
     private CoursViewInterface view;
-
+    protected Comparator<Cours> cmp;
     private static final Logger logger = LogManager.getLogger(CoursPresenter.class);
 
-    public CoursPresenter(DAO<Cours> model, CoursViewInterface view) {
+    public CoursPresenter(DAO<Cours> model, CoursViewInterface view,Comparator<Cours> cmp) {
         this.model = model;
         this.view = view;
         this.view.setPresenter(this);
+        this.cmp=cmp;
+
     }
 
     public void start() {
         List<Cours> cours = model.getAll();
-        view.setListDatas(cours);
+        view.setListDatas(cours,cmp);
     }
 
     public Cours selectionner() {
@@ -52,7 +55,7 @@ public class CoursPresenter {
             view.affMsg("Erreur de création");
         }
         List<Cours> cours2 = model.getAll();
-        view.setListDatas(cours2);
+        view.setListDatas(cours2,cmp);
     }
 
     public void remove(Cours cours) {
@@ -63,7 +66,7 @@ public class CoursPresenter {
             view.affMsg("Cours non effacé");
         }
         List<Cours> cours2 = model.getAll();
-        view.setListDatas(cours2);
+        view.setListDatas(cours2,cmp);
     }
 
     public List<Cours> getAll() {

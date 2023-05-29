@@ -5,6 +5,7 @@ import mvp.presenter.CoursPresenter;
 import utilitaires.Utilitaire;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -25,9 +26,10 @@ public class CoursViewConsole implements CoursViewInterface {
     }
 
     @Override
-    public void setListDatas(List<Cours> cours) {
+    public void setListDatas(List<Cours> cours, Comparator<Cours> cmp){
 
         this.lc = cours;
+        this.lc.sort(cmp);
         affListe(lc);
         menu();
     }
