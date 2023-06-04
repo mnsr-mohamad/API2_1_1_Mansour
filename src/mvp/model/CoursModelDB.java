@@ -190,7 +190,7 @@ public class CoursModelDB implements DAO<Cours>,CoursSpecial {
     @Override
     public List<SessionCours> SessionsParLocal(Cours cours) {
         List<SessionCours> sessions = new ArrayList<>();
-        String query = "SELECT s.*, l.sigle, l.places, l.descriptions " +
+        String query = "SELECT DISTINCT s.*, l.sigle, l.places, l.descriptions " +
                 "FROM APISessionCours s " +
                 "JOIN APILocal l ON s.id_Local = l.id_Local " +
                 "LEFT JOIN APIInfos i ON s.id_SessionCours = i.id_SessionCours " +
@@ -247,7 +247,7 @@ public class CoursModelDB implements DAO<Cours>,CoursSpecial {
                 "FROM APISessionCours s " +
                 "JOIN APILocal l ON s.id_Local = l.id_Local " +
                 "LEFT JOIN APIInfos i ON s.id_SessionCours = i.id_SessionCours " +
-                "WHERE s.id_Cours = ? AND s.dateDebut >= ? AND s.dateFin <= ?";
+                "WHERE s.id_Cours = ? AND s.dateDebut >= ? AND s.dateDebut <= ?";
         try (PreparedStatement pstm = dbConnect.prepareStatement(query)) {
             pstm.setInt(1, cours.getId_Cours());
             pstm.setDate(2, Date.valueOf(dateDebut));

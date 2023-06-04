@@ -105,8 +105,9 @@ public class FormateurViewConsole implements FormateurViewInterface {
     }
 
     private void retirer() {
-        List<Formateur> c = presenter.getAll();
-        affList(c);
+        //List<Formateur> c = presenter.getAll();
+        lf=presenter.getAll();
+        affList(lf);
         int nl = choixElt(lf);
         Formateur formateur = lf.get(nl - 1);
         presenter.remove(formateur);
@@ -130,6 +131,7 @@ public class FormateurViewConsole implements FormateurViewInterface {
 
     private void modifier() {
        // List<Formateur> c = presenter.getAll();
+        lf=presenter.getAll();
         affList(lf);
         int nl = choixElt(lf);
         Formateur formateur = lf.get(nl - 1);
