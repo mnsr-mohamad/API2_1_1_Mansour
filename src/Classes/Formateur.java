@@ -34,14 +34,37 @@ public class Formateur {
      * @param prenom       prenom du formateur
      */
     public Formateur(int id_Formateur, String mail, String nom, String prenom) throws Exception {
-        if(mail.trim().equals("")) {
+        if (mail.trim().equals("")) {
             throw new Exception("Le champ 'mail' est vide.");
         }
-        if(nom.trim().equals("")) {
+
+        // Expression régulière pour valider le format de l'adresse email
+        String regexEmail = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
+
+        if (!mail.matches(regexEmail)) {
+            throw new Exception("Format d'adresse email invalide");
+        }
+
+        if (nom.trim().equals("")) {
             throw new Exception("Le champ 'nom' est vide.");
         }
-        if(prenom.trim().equals("")) {
+
+        // Expression régulière pour valider le format du nom (lettres et espaces)
+        String regexNom = "[A-Za-z\\s]+";
+
+        if (!nom.matches(regexNom)) {
+            throw new Exception("Format de nom invalide");
+        }
+
+        if (prenom.trim().equals("")) {
             throw new Exception("Le champ 'prenom' est vide.");
+        }
+
+        // Expression régulière pour valider le format du prénom (lettres et espaces)
+        String regexPrenom = "[A-Za-z\\s]+";
+
+        if (!prenom.matches(regexPrenom)) {
+            throw new Exception("Format de prénom invalide");
         }
 
         this.id_Formateur = id_Formateur;

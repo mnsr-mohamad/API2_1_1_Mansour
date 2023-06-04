@@ -17,7 +17,7 @@ public class Ecole {
                     setId_SessionCours(1).
                     setDateDebut(LocalDate.now()).
                     setNbreInscrits(25).
-                    setDateFin(LocalDate.of(2023, 5, 17)).
+                    setDateFin(LocalDate.of(2023, 6, 30)).
                     setCours(c).
                     setLocal(l).
                     build();
@@ -31,7 +31,7 @@ public class Ecole {
                     setId_SessionCours(2).
                     setDateDebut(LocalDate.now()).
                     setNbreInscrits(-15).
-                    setDateFin(LocalDate.of(2023, 5, 17)).
+                    setDateFin(LocalDate.of(2023, 6, 30)).
                     setCours(c).
                     build();
             System.out.println(sc2);
@@ -59,7 +59,7 @@ public class Ecole {
                     setId_SessionCours(4).
                     setDateDebut(LocalDate.now()).
                     setNbreInscrits(25).
-                    setDateFin(LocalDate.of(2023, 5, 17)).
+                    setDateFin(LocalDate.of(2023, 6, 30)).
                     setCours(null).
                     setLocal(l).
                     build();

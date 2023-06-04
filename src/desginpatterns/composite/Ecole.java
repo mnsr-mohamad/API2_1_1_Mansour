@@ -16,7 +16,7 @@ public class Ecole {
 
         ca1.getElts().add(c1);
         ca1.getElts().add(c2);
-        ca1.getElts().add(ca2);
+        ca1.getElts().add(ca2);//sous catégorie
         ca2.getElts().add(c3);
         ca2.getElts().add(c4);
         ca2.getElts().add(c5);

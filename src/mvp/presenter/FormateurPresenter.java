@@ -46,8 +46,8 @@ public class FormateurPresenter {
         } else {
             view.affMsg("Erreur de création");
         }
-        List<Formateur> formateur2 = model.getAll();
-        view.setListDatas(formateur2,cmp);
+        //List<Formateur> formateur2 = model.getAll();
+        //view.setListDatas(formateur2,cmp);
     }
 
     public void remove(Formateur formateur) {
@@ -57,8 +57,8 @@ public class FormateurPresenter {
         } else {
             view.affMsg("Formateur non effacé");
         }
-        List<Formateur> formateur2 = model.getAll();
-        view.setListDatas(formateur2,cmp);
+       // List<Formateur> formateur2 = model.getAll();
+        //view.setListDatas(formateur2,cmp);
     }
 
     public List<Formateur> getAll() {

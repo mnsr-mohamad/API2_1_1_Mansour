@@ -49,8 +49,8 @@ public class LocalPresenter {
         } else {
             view.affMsg("Erreur de création");
         }
-        List<Local> local2 = model.getAll();
-        view.setListDatas(local2);
+       // List<Local> local2 = model.getAll();
+        //view.setListDatas(local2);
     }
 
     public void removeLocal(Local local) {
@@ -60,8 +60,8 @@ public class LocalPresenter {
         } else {
             view.affMsg("Local non effacé");
         }
-        List<Local> local2 = model.getAll();
-        view.setListDatas(local2);
+       // List<Local> local2 = model.getAll();
+        //view.setListDatas(local2);
     }
 
     public List<Local> getAll() {

@@ -105,8 +105,8 @@ public class SessionCoursViewConsole implements SessionCoursViewInterface {
     }
 
     private void modifier() {
-        List<SessionCours> c = presenter.getAll();
-        affList(c);
+        //List<SessionCours> c = presenter.getAll();
+        affList(ls);
         int nl = choixElt(ls);
         SessionCours sessioncours = ls.get(nl - 1);
         LocalDate dateDebut = LocalDate.parse(modifyIfNotBlank("date de debut", "" + sessioncours.getDateDebut()));

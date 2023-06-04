@@ -19,17 +19,16 @@ public class CoursPresenter {
     protected Comparator<Cours> cmp;
     private static final Logger logger = LogManager.getLogger(CoursPresenter.class);
 
-    public CoursPresenter(DAO<Cours> model, CoursViewInterface view,Comparator<Cours> cmp) {
+    public CoursPresenter(DAO<Cours> model, CoursViewInterface view) {
         this.model = model;
         this.view = view;
         this.view.setPresenter(this);
-        this.cmp=cmp;
+
 
     }
 
     public void start() {
-        List<Cours> cours = model.getAll();
-        view.setListDatas(cours,cmp);
+        view.setListDatas(getAll());
     }
 
     public Cours selectionner() {
@@ -54,8 +53,6 @@ public class CoursPresenter {
         } else {
             view.affMsg("Erreur de création");
         }
-        List<Cours> cours2 = model.getAll();
-        view.setListDatas(cours2,cmp);
     }
 
     public void remove(Cours cours) {
@@ -63,10 +60,9 @@ public class CoursPresenter {
         if (ok) {
             view.affMsg("Cours effacé");
         } else {
-            view.affMsg("Cours non effacé");
+            view.affMsg("Cours non effacé, car il est utilisé dans une autre table dans la base de donnée");
         }
-        List<Cours> cours2 = model.getAll();
-        view.setListDatas(cours2,cmp);
+
     }
 
     public List<Cours> getAll() {

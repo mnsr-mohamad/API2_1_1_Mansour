@@ -72,8 +72,8 @@ public class SessionCoursPresenter {
                 }
                 else{
                     view.affMsg("Erreur de création car mauvaises données lors de la session ou le nombre d'inscrits dépasse la capacité du local");
-                    List<SessionCours> sessionCours2 = model.getAll();
-                    view.setListDatas(sessionCours2);
+                    //List<SessionCours> sessionCours2 = model.getAll();
+                    //view.setListDatas(sessionCours2);
                 }
 
             }
@@ -87,8 +87,8 @@ public class SessionCoursPresenter {
         boolean ok = model.remove(sessionCours);
         if (ok) view.affMsg("Session du cours effacée");
         else view.affMsg("Session du cours non effacée");
-        List<SessionCours> sessionCours2 = model.getAll();
-        view.setListDatas(sessionCours2);
+        //List<SessionCours> sessionCours2 = model.getAll();
+        //view.setListDatas(sessionCours2);
 
     }
 

@@ -108,8 +108,8 @@ public class LocalViewConsole implements LocalViewInterface {
     }
 
     private void modifier() {
-        List<Local> c = presenter.getAll();
-        affList(c);
+        //List<Local> c = presenter.getAll();
+        affList(ll);
         int nl = choixElt(ll);
         Local local = ll.get(nl - 1);
         String sigle = modifyIfNotBlank("sigle", local.getSigle());

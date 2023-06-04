@@ -22,8 +22,8 @@ public class GestCli {
     public static void main(String[] args) {
         DAO<Cours> cm = new CoursModelDB();
         CoursViewInterface cv = new CoursViewConsole();
-        CoursPresenter cp = new CoursPresenter(cm,cv,(c1,c2)->c1.getMatiere().compareTo(c2.getMatiere()));//création et injection de dépendance
-
+        //CoursPresenter cp = new CoursPresenter(cm,cv,(c1,c2)->c1.getMatiere().compareTo(c2.getMatiere()));//création et injection de dépendance
+        CoursPresenter cp = new CoursPresenter(cm,cv);
 
         DAO<Formateur> fm = new FormateurModelDB();
         FormateurViewInterface fv = new FormateurViewConsole();

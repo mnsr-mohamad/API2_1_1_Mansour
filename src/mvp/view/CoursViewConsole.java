@@ -1,13 +1,12 @@
 package mvp.view;
 
 import Classes.Cours;
+import Classes.Formateur;
 import mvp.presenter.CoursPresenter;
 import utilitaires.Utilitaire;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
+import java.util.regex.Pattern;
 
 import static utilitaires.Utilitaire.*;
 
@@ -26,10 +25,10 @@ public class CoursViewConsole implements CoursViewInterface {
     }
 
     @Override
-    public void setListDatas(List<Cours> cours, Comparator<Cours> cmp){
+    public void setListDatas(List<Cours> cours) {
 
         this.lc = cours;
-        this.lc.sort(cmp);
+        //this.lc.sort(cmp);
         affListe(lc);
         menu();
     }
@@ -53,8 +52,9 @@ public class CoursViewConsole implements CoursViewInterface {
 
 
     public void menu() {
+        List loptions = new ArrayList<>(Arrays.asList("ajout", "retrait", "modifier", "recherche", "special", "fin"));
         do {
-            List<String> loptions = Arrays.asList("ajout", "retrait", "modifier", "recherche", "special", "fin");
+
             int ch = Utilitaire.choixListe(loptions);
             switch (ch) {
                 case 1:
@@ -74,8 +74,6 @@ public class CoursViewConsole implements CoursViewInterface {
                     break;
                 case 6:
                     return;
-                default:
-                    System.out.println("choix invalide recommencez ");
             }
         } while (true);
     }
@@ -83,32 +81,103 @@ public class CoursViewConsole implements CoursViewInterface {
     private void retirer() {
         List<Cours> c = presenter.getAll();
         affList(c);
-        int nl = choixElt(lc);
-        Cours cours = lc.get(nl - 1);
+        int nl = choixElt(c);
+        Cours cours = c.get(nl - 1);
         presenter.remove(cours);
 
     }
 
     private void ajouter() {
-        System.out.print("matière : ");
-        String matiere = sc.nextLine();
+        //il faut appuyer 2 fois sur le choix 6 pour quitter le menu quand on utilise cette méthode
+        try{
+                System.out.print("matière : ");
+                String matiere = sc.nextLine();
+                System.out.print("nombres d'heures : ");
+                int heures = sc.nextInt();
+                sc.skip("\n");
 
-        System.out.print("nombres d'heures : ");
-        int heures = sc.nextInt();
+                presenter.add(new Cours(0,matiere,heures));
+                System.out.println("Cours ajouté ");
+
+            } catch (Exception e) {
+                System.out.println("Erreur  " + e.getMessage());
+            }
+
+
+
+        /*
+        //méthode avec des regex avec chatGPT
+        Scanner sc = new Scanner(System.in);
+        String matiere;
+        int heures;
+
+        do {
+            System.out.print("matière (0 pour quitter) : ");
+            matiere = sc.nextLine();
+
+            if (matiere.equals("0")) {
+                System.out.println("Opération annulée.");
+                return;
+            }
+
+            // Expression régulière pour valider le format de la matière
+            String regexMatiere = "[A-Za-z\\s]+";
+
+            if (!Pattern.matches(regexMatiere, matiere)) {
+                System.out.println("Erreur : format de matière invalide");
+                continue;//permet de revenir au début de la boucle pour permettre à l'utilisateur de saisir à nouveau les données jusqu'à ce qu'elles soient valides.
+            }
+
+            System.out.print("nombres d'heures (0 pour quitter) : ");
+            String heuresStr = sc.nextLine();
+
+            if (heuresStr.equals("0")) {
+                System.out.println("Opération annulée.");
+                return;
+            }
+
+            // Expression régulière pour valider le format des nombres d'heures (entier positif)
+            String regexHeures = "\\d+";
+
+            if (!Pattern.matches(regexHeures, heuresStr)) {
+                System.out.println("Erreur : format de nombres d'heures invalide");
+                continue;
+            }
+
+            heures = Integer.parseInt(heuresStr);
+            break;
+
+        } while (true);
         try {
             presenter.add(new Cours(0, matiere, heures));
-        } catch (Exception e) {
-            System.out.println("Erreur " + e.getMessage());
-        }
 
+        } catch (Exception e) {
+            System.out.println("Erreur : " + e.getMessage());
+        }*/
     }
 
+
     private void modifier() {
-        List<Cours> c = presenter.getAll();
-        affList(c);
+       // List<Cours> c = presenter.getAll();
+        affList(lc);
         int nl = choixElt(lc);
         Cours cours = lc.get(nl - 1);
-        String matiere = modifyIfNotBlank("matiere", cours.getMatiere());
+        do {
+            try {
+                String matiere = modifyIfNotBlank("matiere", cours.getMatiere());
+                int heures = Integer.parseInt(modifyIfNotBlank("heures", "" + cours.getHeures()));
+                cours.setMatiere(matiere);
+                cours.setHeures(heures);
+                break;
+            } catch (Exception e) {
+                System.out.println("erreur :" + e);
+            }
+        }
+        while (true);
+        presenter.update(cours);
+        lc = presenter.getAll();//rafraichissement
+        affListe(lc);
+        /* String matiere = modifyIfNotBlank("matiere", cours.getMatiere());
         int heures = Integer.parseInt(modifyIfNotBlank("heures", "" + cours.getHeures()));
         try {
             presenter.update(new Cours(cours.getId_Cours(), matiere, heures));
@@ -116,7 +185,7 @@ public class CoursViewConsole implements CoursViewInterface {
             affListe(lc);
         } catch (Exception e) {
             System.out.println("Erreur " + e.getMessage());
-        }
+        }*/
 
     }
 
@@ -136,33 +205,33 @@ public class CoursViewConsole implements CoursViewInterface {
 
     public void special() {
 
-            System.out.println("Choisissez un cours : ");
-            List<Cours> c = presenter.getAll();
-            affList(c);
-            int choix = choixElt(lc);
-            Cours cr = lc.get(choix - 1);
-            System.out.println("Vous avez choisi le cours " + cr);
+        System.out.println("Choisissez un cours : ");
+        List<Cours> c = presenter.getAll();
+        affList(c);
+        int choix = choixElt(lc);
+        Cours cr = lc.get(choix - 1);
+        System.out.println("Vous avez choisi le cours " + cr);
 
-            do {
-                int ch = choixListe(Arrays.asList("Formateurs par cours", "Afficher toutes les sessions du cours avec le local", "Afficher toutes les sessions du cours avec le local comprise entre 2 dates ", "Menu principal"));
+        do {
+            int ch = choixListe(Arrays.asList("Formateurs par cours", "Afficher toutes les sessions du cours avec le local", "Afficher toutes les sessions du cours avec le local comprise entre 2 dates ", "Menu principal"));
 
-                switch (ch) {
-                    case 1:
-                        presenter.FormateursCours(cr);
-                        break;
-                    case 2:
-                        presenter.SessionsParLocal(cr);
-                        break;
-                    case 3:
-                        presenter.SessionsEntreDate(cr);
-                        break;
-                    case 4:
-                        return;
-                    default:
-                        System.out.println("Choix invalide, recommencez.");
-                }
-            } while (true);
-        }
+            switch (ch) {
+                case 1:
+                    presenter.FormateursCours(cr);
+                    break;
+                case 2:
+                    presenter.SessionsParLocal(cr);
+                    break;
+                case 3:
+                    presenter.SessionsEntreDate(cr);
+                    break;
+                case 4:
+                    return;
+                default:
+                    System.out.println("Choix invalide, recommencez.");
+            }
+        } while (true);
+    }
 
 
 }

@@ -42,15 +42,22 @@ public class Local {
      * @param description description du local
      */
     public Local(int id_Local, String sigle, int places, String description) throws Exception {
+
+
         if (sigle.trim().equals("")) {
             throw new Exception("Le champ 'sigle' est vide.");
         }
+
+
         if (places < 0) {
             throw new Exception("Le nombre de places ne peut être négatif.");
         }
-        /*if (description.trim().equals("")) {
-            throw new Exception("Le champ 'description' est vide.");
-        }*/
+
+
+        if (description.trim().equals("")) {
+            throw new Exception("Le champ 'description' est vide. ");
+        }
+
 
         this.id_Local = id_Local;
         this.sigle = sigle;
